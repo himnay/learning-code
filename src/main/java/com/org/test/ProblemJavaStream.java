@@ -1,6 +1,6 @@
-package com.org.learning;
+package com.org.test;
 
-import com.org.learning.dto.Employee;
+import com.org.test.dto.Employee;
 
 import java.util.Arrays;
 import java.util.Comparator;

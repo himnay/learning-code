@@ -1,4 +1,4 @@
-package com.org.learning.dto;
+package com.org.test.dto;
 
 public class Employee {
 

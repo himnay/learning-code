@@ -1,4 +1,4 @@
-package com.org.learning;
+package com.org.test;
 
 public class ProblemRotationCheck {
     public static void main(String[] args) {

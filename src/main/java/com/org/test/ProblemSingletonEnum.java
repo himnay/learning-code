@@ -1,5 +1,8 @@
 package com.org.test;
 
+import lombok.Getter;
+
+@Getter
 public enum ProblemSingletonEnum {
 
     INSTANCE;   // the single instance of the enum
@@ -9,10 +12,6 @@ public enum ProblemSingletonEnum {
     // business logic method
     public void doBusinessLogicWork() {
         // your logic here
-    }
-
-    public int getSomeValue() {
-        return someValue;
     }
 
     public void setSomeValue(int someValue) {

@@ -37,6 +37,18 @@ public class ProblemStream {
 
         // reverse and sorted a list of string
         reverseAndSortString();
+
+        // find missing no in a list
+        findMissingNoInAList();
+
+        // merge 111 to the end of existing list
+        merge111ToList();
+
+        // move all 111 to the end
+        moveAll111ToEnd();
+
+        // reverse a string
+        stringReverse();
     }
 
     private static void occurrenceNumber() {
@@ -117,5 +129,52 @@ public class ProblemStream {
                 .toList();
         System.out.println("Actual List of String " + list);
         System.out.println("Reverse and Sorted " + reverseAndSorted);
+    }
+
+    private static void findMissingNoInAList() {
+        System.out.println("***findMissingNoInAList***");
+        var list = List.of(2, 5, 8, 10);
+        System.out.println("List of numbers : " + list);
+
+        // find min and max
+        Integer min = list.stream().min(Integer::compareTo).get();
+        Integer max = list.stream().max(Integer::compareTo).get();
+
+        var missingNumbers = IntStream.rangeClosed(min, max)
+                .filter(i -> list.contains(i))
+                .boxed()
+                .collect(Collectors.toList());
+        System.out.println("Missing numbers : " + missingNumbers);
+    }
+
+    private static void merge111ToList() {
+        System.out.println("***merge111ToList***");
+        var list = List.of(2, 3, 4, 2);
+        var list111 = List.of(1, 4, 2, 1, 5);
+
+        List<Integer> listOfOne = list111.stream()
+                .filter(i -> i == 1)
+                .toList();
+
+        var collectedList = Stream.concat(list.stream(), listOfOne.stream()).toList();
+        System.out.println("Merge List " + collectedList);
+    }
+
+    private static void moveAll111ToEnd() {
+        System.out.println("***moveAll111ToEnd***");
+        var list = List.of(1, 2, 1, 3, 1, 4, 1);
+
+        var collectedOne = list.stream().filter(i -> i == 1).toList();
+        var filterList = list.stream().filter(i -> i != 1).toList();
+        var mergeList = Stream.concat(filterList.stream(), collectedOne.stream());
+    }
+
+    private static void stringReverse() {
+        System.out.println("***stringReverse***");
+        var name = "BankOfAmerica";
+        System.out.println("String : " + name);
+        var reverseString = Arrays.stream(name.split(""))
+                .reduce((a, b) -> b + a);
+        System.out.println("Reverse String : " + reverseString.get());
     }
 }

@@ -1,7 +1,7 @@
 import com.org.test.dto.Employee;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class ScrapPad {
@@ -22,38 +22,48 @@ public class ScrapPad {
 
         var employees = List.of(frank, ace, keith, declan, barry);
 
-        employees.stream()
-                .min(Comparator.comparing(Employee::getSalary))
-                .ifPresent(System.out::println);
+        avg();
+        caseChange();
+        evenOddSum();
+        removeDup();
+        listStartsWith();
+    }
 
-        employees.stream()
-                .max(Comparator.comparing(Employee::getSalary))
-                .ifPresent(System.out::println);
+    private static void avg() {
+        double average = IntStream.rangeClosed(1, 10).average().getAsDouble();
+        System.out.println(average);
+    }
 
-        var collect = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.minBy(Comparator.comparing(Employee::getSalary))));
-        System.out.println("args = " + collect);
+    private static void caseChange() {
+        var strings = List.of("apple", "orange", "mango");
+        List<String> upperCase = strings.stream().map(String::toUpperCase).toList();
+        System.out.println(upperCase);
+    }
 
-        collect = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.maxBy(Comparator.comparing(Employee::getSalary))));
-        System.out.println("args = " + collect);
-
-        var totalSalary = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.summingDouble(Employee::getSalary)));
-        System.out.println("args = " + totalSalary);
-
-        var avgSalary = employees.stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingDouble(Employee::getSalary)));
-        System.out.println("args = " + avgSalary);
-
-        var itNonIt = employees.stream()
-                .collect(Collectors.partitioningBy(i -> i.getDepartment().equals("IT") ? true : false));
-        System.out.println("IT :" + itNonIt.get(true));
-        System.out.println("Non-IT :" + itNonIt.get(false));
-
-        // find odd/even
-        IntStream.rangeClosed(1, 100)
-                .filter(i -> i % 2 == 0)
+    private static void evenOddSum() {
+        IntStream.iterate(1, n -> n + 2)
+                .limit(10)
                 .forEach(System.out::println);
+    }
+
+    private static void removeDup() {
+        IntStream.generate(() -> (int) Math.random() * 100) // random range should be within 100
+                .limit(5)
+                .distinct()
+                .forEach(System.out::println);
+    }
+
+    private static void listStartsWith() {
+        var list = List.of("Red", "Rose", "Mat", "Ring");
+
+        list.stream().filter(i -> i.startsWith("R")).forEach(System.out::println);
+    }
+
+    private static void sortStrings() {
+        var list = List.of("Test", "Mat", "Apple", "Zebra");
+
+        list.stream().sorted().forEach(System.out::println);
+        list.stream().sorted(String::compareTo).forEach(System.out::println);
+        list.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
     }
 }

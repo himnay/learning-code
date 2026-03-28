@@ -2,10 +2,11 @@ package com.org.test;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ProblemStream {
@@ -14,14 +15,8 @@ public class ProblemStream {
         // find the occurrence
         occurrenceNumber();
 
-        // find max number
-        maxNumber();
-
         // filter non null string
         filterNonNullString();
-
-        // find odd numbers
-        oddNumber();
 
         // uppercase
         uppercase();
@@ -38,9 +33,6 @@ public class ProblemStream {
         // reverse and sorted a list of string
         reverseAndSortString();
 
-        // find missing no in a list
-        findMissingNoInAList();
-
         // merge 111 to the end of existing list
         merge111ToList();
 
@@ -54,23 +46,9 @@ public class ProblemStream {
     private static void occurrenceNumber() {
         System.out.println("***occurrenceNumber***");
         String name = "HimansuNayak";
-        var occurence =Arrays.stream(name.split(""))
+        var occurence = Arrays.stream(name.split(""))
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
         System.out.println(occurence);
-    }
-
-    private static void maxNumber() {
-        // using random list
-        System.out.println("***maxNumber***");
-        OptionalInt max = Arrays.stream(ThreadLocalRandom.current()
-                .ints(10, 1, 101) // count=10, min=1 (inclusive), max=101 (exclusive)
-                .toArray()).max();
-        if(max.isPresent()) {
-            System.out.println(max.getAsInt());
-        }
-
-        // using max()
-        IntStream.rangeClosed(1, 10).max().ifPresent(System.out::println);
     }
 
     private static void filterNonNullString() {
@@ -79,13 +57,6 @@ public class ProblemStream {
         names.stream()
                 .filter(name -> StringUtils.isNotBlank(name))
                 .forEach(i -> System.out.println("i = " + i));
-    }
-
-    private static void oddNumber() {
-        System.out.println("***oddNumber***");
-        IntStream.rangeClosed(1, 10)
-                .filter(i -> i % 2 == 0)
-                .forEach(i -> System.out.print(" " + i));
     }
 
     private static void uppercase() {
@@ -106,8 +77,8 @@ public class ProblemStream {
 
     private static void mergeListAndDeDup() {
         System.out.println("***mergeListAndDeDup***");
-        var firstList = List.of(1,2,3,4,5,6,7,8,9);
-        var secondList = List.of(5,6,7,8,9,10);
+        var firstList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        var secondList = List.of(5, 6, 7, 8, 9, 10);
 
         Stream.concat(firstList.stream(), secondList.stream()).distinct().forEach(System.out::println);
     }
@@ -116,7 +87,7 @@ public class ProblemStream {
         System.out.println("***longestWord***");
         var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
         Optional<String> size = list.stream().max(Comparator.comparingInt(String::length));
-        if(size.isPresent()) {
+        if (size.isPresent()) {
             System.out.println("Longest word " + size.get().length());
         }
     }
@@ -129,22 +100,6 @@ public class ProblemStream {
                 .toList();
         System.out.println("Actual List of String " + list);
         System.out.println("Reverse and Sorted " + reverseAndSorted);
-    }
-
-    private static void findMissingNoInAList() {
-        System.out.println("***findMissingNoInAList***");
-        var list = List.of(2, 5, 8, 10);
-        System.out.println("List of numbers : " + list);
-
-        // find min and max
-        Integer min = list.stream().min(Integer::compareTo).get();
-        Integer max = list.stream().max(Integer::compareTo).get();
-
-        var missingNumbers = IntStream.rangeClosed(min, max)
-                .filter(i -> list.contains(i))
-                .boxed()
-                .collect(Collectors.toList());
-        System.out.println("Missing numbers : " + missingNumbers);
     }
 
     private static void merge111ToList() {
@@ -176,5 +131,13 @@ public class ProblemStream {
         var reverseString = Arrays.stream(name.split(""))
                 .reduce((a, b) -> b + a);
         System.out.println("Reverse String : " + reverseString.get());
+    }
+
+    private static void sortStrings() {
+        var list = List.of("Test", "Mat", "Apple", "Zebra");
+
+        list.stream().sorted().forEach(System.out::println);
+        list.stream().sorted(String::compareTo).forEach(System.out::println);
+        list.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
     }
 }

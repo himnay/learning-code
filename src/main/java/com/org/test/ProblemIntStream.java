@@ -73,13 +73,17 @@ public class ProblemIntStream {
 
     private static void secondSmallestLargest() {
         OptionalInt smallest = IntStream.rangeClosed(1, 10)
+                .boxed()
                 .sorted()
                 .skip(1)
+                .mapToInt(Integer::intValue)
                 .findFirst();
 
         OptionalInt largest = IntStream.rangeClosed(1, 10)
+                .boxed()
                 .sorted((a, b) -> Integer.compare(b, a))
                 .skip(1)
+                .mapToInt(Integer::intValue)
                 .findFirst();
     }
 

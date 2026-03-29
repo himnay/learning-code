@@ -2,7 +2,6 @@ package com.org.test;
 
 import com.org.test.dto.Employee;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class ProblemStreamBOFA {
         Employee declan = new Employee("Declan", "Finance", 35, 5000.0, 9927652);
         Employee barry = new Employee("Barry", "Finance", 45, 8000.0, 9922876);
 
-        List<Employee> employees = Arrays.asList(frank, ace, keith, declan, barry);
+        var employees = List.of(frank, ace, keith, declan, barry);
 
         //1. Get Minimum & Maximum Salary Employee details across all departments
         employees.stream()
@@ -47,7 +46,7 @@ public class ProblemStreamBOFA {
         employees.stream()
                 .collect(groupingByConcurrent(Employee::getDepartment, averagingDouble(Employee::getSalary)));
 
-        //6. Create 2 groups i.e. GROUP 1 has employees who has salary < = 3000 and GROUP 2 has employees > 3000
+        //6. Create 2 groups i.e. GROUP 1 has employees who have salary < = 3000 and GROUP 2 has employees > 3000
         employees.stream()
                 .collect(groupingBy(e -> e.getSalary() <= 3000 ? "Low Salary" : "High Salary"));
         employees.stream()

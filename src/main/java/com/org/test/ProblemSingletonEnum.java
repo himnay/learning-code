@@ -21,7 +21,7 @@ public enum ProblemSingletonEnum {
 
 /*
 public class Main {
-    public static void main(String[] args) {
+    void main() {
         ProblemSingletonEnum singleton = ProblemSingletonEnum.INSTANCE;
 
         singleton.setSomeValue(42);

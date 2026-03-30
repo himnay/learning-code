@@ -13,7 +13,7 @@ public class ScrapPad {
 //5. Process dataset in parallel
 //6. Create 2 groups i.e. GROUP 1 has employees who has salary < = 3000 and GROUP 2 has employees > 3000
 
-    public static void main(String[] args) {
+    void main() {
         Employee frank = new Employee("frank", "IT", 25, 3000.0, 9922001);
         Employee ace = new Employee("Ace", "IT", 24, 4000.0, 9922002);
         Employee keith = new Employee("Keith", "HR", 33, 2000.0, 9922323);

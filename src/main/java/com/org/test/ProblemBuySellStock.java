@@ -3,7 +3,7 @@ package com.org.test;
 import java.util.List;
 
 public class ProblemBuySellStock {
-    public static void main(String[] args) {
+    void main() {
         var stocks = List.of(3, 2, 1, 5, 3, 1, 1, 7, 9, 1);
         Integer minStock = Integer.MAX_VALUE;
         Integer maxStock = Integer.MIN_VALUE;

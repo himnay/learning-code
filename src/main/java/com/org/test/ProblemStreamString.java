@@ -2,15 +2,12 @@ package com.org.test;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProblemStreamString {
-    public static void main(String[] args) {
+    void main() {
 
         // find the occurrence
         occurrenceNumber();
@@ -50,6 +47,15 @@ public class ProblemStreamString {
 
         // common word across 3 list
         commonWord();
+
+        // identify numbers from a alpha-numeric string and sum it
+        filterNumbersFromAlphaNumericStringAndSum();
+
+        // find the min occurence of a character in array of chars
+        countMinOccurrence();
+
+        // find the longest string in a list of string
+        findLongestString();
     }
 
     private static void occurrenceNumber() {
@@ -149,7 +155,7 @@ public class ProblemStreamString {
 
     private static void sortStrings() {
         System.out.println("***sortStrings***");
-        var list = List.of("Test", "Mat", "Apple", "Zebra");
+        var list = List.of("Test", "Mat", "RAT", "Apple", "Zebra");
 
         list.stream().sorted().forEach(System.out::println);
         list.stream().sorted(String::compareTo).forEach(System.out::println);
@@ -174,5 +180,38 @@ public class ProblemStreamString {
                 .filter(i -> listB.contains(i) && listC.contains(i))
                 .toList();
         System.out.println(commonWord);
+    }
+
+    private static void filterNumbersFromAlphaNumericStringAndSum() {
+        System.out.println("filterNumbersFromAlphaNumericStringAndSum()");
+        Character[] alphaNum = {'A','1','l','2','p','3','h'};
+
+        var numbers = Arrays.stream(alphaNum)
+                .filter(i -> Character.isDigit(i))
+                .toList();
+        System.out.println(numbers);
+    }
+
+    private static void countMinOccurrence() {
+        System.out.println("countMinOccurrence()");
+        Character [] characters = {'a', 'b', 'a', 'b', 'c','d','d','d'};
+        Map<Character, Long> collect = Arrays.stream(characters)
+                .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
+
+        // sort and transfer to a linked hashmap
+        var result = collect.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        System.out.println(result);
+    }
+
+    private static void findLongestString() {
+        System.out.println("findLongestString()");
+        var strings = List.of("Hello", "Encylopedia", "Tiger", "Architecture");
+
+        List<String> sortedString = strings.stream()
+                .sorted(Comparator.comparingInt(String::length).reversed())
+                .toList();
+        System.out.println(sortedString.get(0));
     }
 }

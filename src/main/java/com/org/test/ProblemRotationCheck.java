@@ -1,7 +1,7 @@
 package com.org.test;
 
 public class ProblemRotationCheck {
-    public static void main(String[] args) {
+    void main() {
         String s1 = "abcde";
         String s2 = "deabc";
         System.out.println(isRotation(s1, s2)); // Output: true

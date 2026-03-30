@@ -8,10 +8,10 @@ import java.util.stream.IntStream;
 
 public class ProblemStreamInt {
 
-    public static void main(String[] args) {
+    void main() {
 
         // find odd numbers
-        oddNumber();
+        evenNumber();
 
         // find max number
         minMaxNumber();
@@ -36,13 +36,14 @@ public class ProblemStreamInt {
 
     }
 
-    private static void oddNumber() {
-        System.out.println("***oddNumber***");
-        var oddNumbers = IntStream.rangeClosed(1, 10)
+    private static void evenNumber() {
+        System.out.println("***evenNumber***");
+        var evenNumber = IntStream.rangeClosed(1, 10)
                 .filter(i -> i % 2 == 0)
                 .boxed()
+                .map(i -> i * 2)
                 .toList();
-        System.out.println(oddNumbers);
+        System.out.println(evenNumber);
     }
 
     private static void minMaxNumber() {
@@ -82,15 +83,16 @@ public class ProblemStreamInt {
 
     private static void findMissingNoInAList() {
         System.out.println("***findMissingNoInAList***");
-        var list = List.of(2, 5, 8, 10);
-        System.out.println("List of numbers : " + list);
+        var numbers = List.of(2, 5, 8, 10);
+        System.out.println("List of numbers : " + numbers);
 
         // find min and max
-        Integer min = list.stream().min(Integer::compareTo).get();
-        Integer max = list.stream().max(Integer::compareTo).get();
+        Integer min = numbers.stream().min(Integer::compareTo).get();
+        Integer max = numbers.stream().max(Integer::compareTo).get();
 
+        // use set O(1) instead of list O(N)
         var missingNumbers = IntStream.rangeClosed(min, max)
-                .filter(i -> !list.contains(i))
+                .filter(i -> !numbers.contains(i))
                 .boxed()
                 .collect(Collectors.toList());
         System.out.println("Missing numbers : " + missingNumbers);

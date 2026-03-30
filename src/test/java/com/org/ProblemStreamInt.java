@@ -15,42 +15,8 @@ import java.util.stream.IntStream;
 @ExtendWith(MockitoExtension.class)
 public class ProblemStreamInt {
 
-//    void main() {
-//
-//        // find odd numbers
-//        evenNumber();
-//
-//        // find max number
-//        minMaxNumber();
-//
-//        // find min and max number using stream reduce
-//        minMaxNumberUsingReduce();
-//
-//        // find sum
-//        sumNumber();
-//
-//        // find duplicate numbers
-//        findDuplicateNumbers();
-//
-//        // find missing no in a list
-//        findMissingNoInAList();
-//
-//        // generate even and odd numbers
-//        generateEvenOddNumbers();
-//
-//        // second smallest and largest number
-//        secondSmallestLargest();
-//
-//        // reverse a array of int
-//        reverseArrayOfInt();
-//
-//        // longest or shortest word in a list
-//        longAndShortWord();
-//
-//    }
-
     @Test
-    @DisplayName("")
+    @DisplayName("filter even number and double it")
     public void evenNumber() {
         System.out.println("***evenNumber***");
         var evenNumber = IntStream.rangeClosed(1, 10)
@@ -62,7 +28,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find min and max number in a list")
     public void minMaxNumber() {
         System.out.println("minMaxNumber()");
         var numbers = IntStream.rangeClosed(1, 10)
@@ -72,16 +38,16 @@ public class ProblemStreamInt {
         var maxNumber = numbers.stream()
                 .max((i, j) -> i.compareTo(j))
                 .get();
+        System.out.println(maxNumber);
+
         var minNumber = numbers.stream()
                 .min((i, j) -> i.compareTo(j))
                 .get();
-
-        System.out.println(maxNumber);
         System.out.println(minNumber);
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find min and max number in a list using reduce")
     public void minMaxNumberUsingReduce() {
         System.out.println("minMaxNumber()");
         var numbers = List.of(3, 2, 1);
@@ -99,7 +65,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find sum of number in a list")
     public void sumNumber() {
         // option 1
         System.out.println("sumNumber()");
@@ -120,7 +86,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find duplicate numbers in a list")
     public void findDuplicateNumbers() {
         System.out.println("***findDuplicateNumbers***");
         var numbers = List.of(1, 2, 2, 3, 4, 4, 5);
@@ -133,7 +99,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find missing number in a list")
     public void findMissingNoInAList() {
         System.out.println("***findMissingNoInAList***");
         var numbers = List.of(2, 5, 8, 10);
@@ -152,7 +118,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find even and odd numbers in a list")
     public void generateEvenOddNumbers() {
         System.out.println("generateEvenOddNumbers()");
         var evenNumbers = IntStream.iterate(2, i -> i + 2)
@@ -170,7 +136,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find second smallest and second largest number in a list")
     public void secondSmallestLargest() {
         System.out.println("secondSmallestLargest()");
         OptionalInt smallest = IntStream.rangeClosed(1, 10)
@@ -189,7 +155,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("reverse an array of int and sort it")
     public void reverseArrayOfInt() {
         System.out.println("reverseArrayOfInt()");
         var numbers = List.of(5, 4, 3, 2, 1);
@@ -202,7 +168,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("find longest and shortest word in a list of string")
     public void longAndShortWord() {
         System.out.println("longAndShortWord()");
         var strings = List.of("Hi", "Hello", "HelloWorld", "Test", "Spring");
@@ -213,7 +179,7 @@ public class ProblemStreamInt {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("count even and odd numbers in a list")
     public void countEvenOddNumbers() {
         System.out.println("countEvenOddNumbers()");
         var numbers = List.of(1, 2, 3, 4, 5, 6);

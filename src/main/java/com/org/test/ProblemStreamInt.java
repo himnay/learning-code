@@ -2,6 +2,7 @@ package com.org.test;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,6 +16,9 @@ public class ProblemStreamInt {
 
         // find max number
         minMaxNumber();
+
+        // find min and max number using stream reduce
+        minMaxNumberUsingReduce();
 
         // find sum
         sumNumber();
@@ -33,6 +37,9 @@ public class ProblemStreamInt {
 
         // reverse a array of int
         reverseArrayOfInt();
+
+        // longest or shortest word in a list
+        longAndShortWord();
 
     }
 
@@ -63,11 +70,39 @@ public class ProblemStreamInt {
         System.out.println(minNumber);
     }
 
+    private static void minMaxNumberUsingReduce() {
+        System.out.println("minMaxNumber()");
+        var numbers = List.of(3, 2, 1);
+
+        var maxNumber = numbers.stream()
+                .reduce(Integer::max)
+                .get();
+
+        var minNumber = numbers.stream()
+                        .reduce(Integer::min)
+                                .get();
+
+        System.out.println(maxNumber);
+        System.out.println(minNumber);
+    }
+
     private static void sumNumber(){
+        // option 1
         System.out.println("sumNumber()");
-        int sum = IntStream.rangeClosed(1, 10)
+        int sum = IntStream.rangeClosed(1, 5)
                 .sum();
         System.out.println(sum);
+
+        // option 2
+        OptionalInt reduce = IntStream.rangeClosed(1, 5)
+                .reduce((a, b) -> a + b);
+        System.out.println(reduce);
+
+        // option 3
+        var numbers = List.of(1, 2, 3, 4, 5);
+        Optional<Integer> collectReduce = numbers.stream()
+                .collect(Collectors.reducing((x, y) -> x + y));
+        System.out.println(collectReduce);
     }
 
     private static void findDuplicateNumbers() {
@@ -142,4 +177,22 @@ public class ProblemStreamInt {
         System.out.println(reverseNumbers);
     }
 
+    private static void longAndShortWord() {
+        System.out.println("longAndShortWord()");
+        var strings = List.of("Hi", "Hello", "HelloWorld", "Test", "Spring");
+
+        Optional<String> longestWord = strings.stream()
+                .reduce((a, b) -> a.length() > b.length() ? a : b);
+        System.out.println(longestWord);
+    }
+
+    private static void countEvenOddNumbers() {
+        System.out.println("countEvenOddNumbers()");
+        var numbers = List.of(1, 2, 3, 4, 5, 6);
+        Long sum = numbers.stream()
+                .reduce(0L, (count, a) -> a % 2 == 0 ? count + 1 : count, Long::sum);
+        System.out.println(sum);
+    }
+
 }
+

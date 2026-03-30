@@ -220,6 +220,7 @@ public class ProblemStreamString {
 
     private static void lenghtOfLastWordInASentence() {
         System.out.println("lenghtOfLastWordInASentence()");
+        var string = "Good Morning. How are you?";
         Optional<Integer> stringLength = Arrays.stream(string.split(" "))
                 .reduce((a, b) -> b)
                 .map(String::length);

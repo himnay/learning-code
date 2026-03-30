@@ -1,75 +1,31 @@
-package com.org.test;
+package com.org;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@ExtendWith(MockitoExtension.class)
 public class ProblemStreamString {
-    void main() {
 
-        // find the occurrence
-        occurrenceNumber();
-
-        // filter non null string
-        filterNonNullString();
-
-        // uppercase
-        upperCase();
-
-        // remove duplicate
-        removeDup();
-
-        // merge 2 list and remove duplidate
-        mergeListAndDeDup();
-
-        // longest word from a list of string
-        longestWord();
-
-        // reverse and sorted a list of string
-        reverseAndSortString();
-
-        // merge 111 to the end of existing list
-        mergeList();
-
-        // move all 111 to the end
-        moveAllOneToEnd();
-
-        // reverse a string
-        stringReverse();
-
-        // sort a list of string
-        sortStrings();
-
-        // occurrence of word
-        occurrenceOfWord();
-
-        // common word across 3 list
-        commonWord();
-
-        // identify numbers from a alpha-numeric string and sum it
-        filterNumbersFromAlphaNumericStringAndSum();
-
-        // find the min occurence of a character in array of chars
-        countMinOccurrence();
-
-        // find the longest string in a list of string
-        findLongestString();
-
-        // length of last word in a sentence
-        lenghtOfLastWordInASentence();
-    }
-
-    private static void occurrenceNumber() {
-        System.out.println("***occurrenceNumber***");
+    @Test
+    @DisplayName("")
+    public void occurrenceNumber() {
+        System.out.println("");
         String name = "HimansuNayak";
         var occurrence = Arrays.stream(name.split(""))
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
         System.out.println(occurrence);
     }
 
-    private static void filterNonNullString() {
+    @Test
+    @DisplayName("")
+    public void filterNonNullString() {
         System.out.println("***filterNonNullString***");
         var names = Arrays.asList("Alice", " ", "Bob", "", "Charlie", "David", null);
         names.stream()
@@ -77,7 +33,9 @@ public class ProblemStreamString {
                 .forEach(i -> System.out.println("i = " + i));
     }
 
-    private static void upperCase() {
+    @Test
+    @DisplayName("")
+    public void upperCase() {
         System.out.println("***upperCase***");
         List.of("apple", "orange", "banana", "kiwi", "kiwi")
                 .stream()
@@ -85,7 +43,9 @@ public class ProblemStreamString {
                 .forEach(System.out::println);
     }
 
-    private static void removeDup() {
+    @Test
+    @DisplayName("")
+    public void removeDup() {
         System.out.println("***removeDup***");
         List.of(2, 2, 4, 3, 4, 5, 2, 5)
                 .stream()
@@ -93,7 +53,9 @@ public class ProblemStreamString {
                 .forEach(System.out::println);
     }
 
-    private static void mergeListAndDeDup() {
+    @Test
+    @DisplayName("")
+    public void mergeListAndDeDup() {
         System.out.println("***mergeListAndDeDup***");
         var firstList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
         var secondList = List.of(5, 6, 7, 8, 9, 10);
@@ -104,7 +66,9 @@ public class ProblemStreamString {
         System.out.println(mergeList);
     }
 
-    private static void longestWord() {
+    @Test
+    @DisplayName("")
+    public void longestWord() {
         System.out.println("***longestWord***");
         var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
         Optional<String> size = list.stream()
@@ -114,7 +78,9 @@ public class ProblemStreamString {
         }
     }
 
-    private static void reverseAndSortString() {
+    @Test
+    @DisplayName("")
+    public void reverseAndSortString() {
         System.out.println("***reverseAndSortString***");
         var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
         List<String> reverseAndSorted = list.stream()
@@ -125,7 +91,9 @@ public class ProblemStreamString {
         System.out.println("Reverse and Sorted " + reverseAndSorted);
     }
 
-    private static void mergeList() {
+    @Test
+    @DisplayName("")
+    public void mergeList() {
         System.out.println("***mergeList***");
         var listA = List.of(2, 3, 4, 2);
         var listB = List.of(1, 4, 2, 1, 5);
@@ -138,7 +106,9 @@ public class ProblemStreamString {
         System.out.println("Merge List " + collectedList);
     }
 
-    private static void moveAllOneToEnd() {
+    @Test
+    @DisplayName("")
+    public void moveAllOneToEnd() {
         System.out.println("***moveAll111ToEnd***");
         var list = List.of(1, 2, 1, 3, 1, 4, 1);
 
@@ -147,7 +117,9 @@ public class ProblemStreamString {
         var mergeList = Stream.concat(filterList.stream(), collectedOne.stream());
     }
 
-    private static void stringReverse() {
+    @Test
+    @DisplayName("")
+    public void stringReverse() {
         System.out.println("***stringReverse***");
         var name = "BankOfAmerica";
         System.out.println("String : " + name);
@@ -156,7 +128,9 @@ public class ProblemStreamString {
         System.out.println("Reverse String : " + reverseString.get());
     }
 
-    private static void sortStrings() {
+    @Test
+    @DisplayName("")
+    public void sortStrings() {
         System.out.println("***sortStrings***");
         var list = List.of("Test", "Mat", "RAT", "Apple", "Zebra");
 
@@ -165,7 +139,9 @@ public class ProblemStreamString {
         list.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
     }
 
-    private static void occurrenceOfWord() {
+    @Test
+    @DisplayName("")
+    public void occurrenceOfWord() {
         System.out.println("***occurrenceOfWord***");
         var list = List.of("apple", "apple", "apple", "banana", "banana", "mango");
         var collect = list.stream()
@@ -173,11 +149,13 @@ public class ProblemStreamString {
         System.out.println(collect);
     }
 
-    private static void commonWord() {
+    @Test
+    @DisplayName("")
+    public void commonWord() {
         System.out.println("***commonWord***");
-        var listA = List.of("I", "am","a","Hero");
-        var listB = List.of("Hero","are","good");
-        var listC = List.of("Good","Hero","are","paid","well");
+        var listA = List.of("I", "am", "a", "Hero");
+        var listB = List.of("Hero", "are", "good");
+        var listC = List.of("Good", "Hero", "are", "paid", "well");
 
         var commonWord = listA.stream()
                 .filter(i -> listB.contains(i) && listC.contains(i))
@@ -185,9 +163,11 @@ public class ProblemStreamString {
         System.out.println(commonWord);
     }
 
-    private static void filterNumbersFromAlphaNumericStringAndSum() {
+    @Test
+    @DisplayName("")
+    public void filterNumbersFromAlphaNumericStringAndSum() {
         System.out.println("filterNumbersFromAlphaNumericStringAndSum()");
-        Character[] alphaNum = {'A','1','l','2','p','3','h'};
+        Character[] alphaNum = {'A', '1', 'l', '2', 'p', '3', 'h'};
 
         var numbers = Arrays.stream(alphaNum)
                 .filter(i -> Character.isDigit(i))
@@ -195,9 +175,11 @@ public class ProblemStreamString {
         System.out.println(numbers);
     }
 
-    private static void countMinOccurrence() {
+    @Test
+    @DisplayName("")
+    public void countMinOccurrence() {
         System.out.println("countMinOccurrence()");
-        Character [] characters = {'a', 'b', 'a', 'b', 'c','d','d','d'};
+        Character[] characters = {'a', 'b', 'a', 'b', 'c', 'd', 'd', 'd'};
         Map<Character, Long> collect = Arrays.stream(characters)
                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
 
@@ -208,7 +190,9 @@ public class ProblemStreamString {
         System.out.println(result);
     }
 
-    private static void findLongestString() {
+    @Test
+    @DisplayName("")
+    public void findLongestString() {
         System.out.println("findLongestString()");
         var strings = List.of("Hello", "Encylopedia", "Tiger", "Architecture");
 
@@ -218,7 +202,9 @@ public class ProblemStreamString {
         System.out.println(sortedString.get(0));
     }
 
-    private static void lenghtOfLastWordInASentence() {
+    @Test
+    @DisplayName("")
+    public void lenghtOfLastWordInASentence() {
         System.out.println("lenghtOfLastWordInASentence()");
         var string = "Good Morning. How are you?";
         Optional<Integer> stringLength = Arrays.stream(string.split(" "))
@@ -226,5 +212,14 @@ public class ProblemStreamString {
                 .map(String::length);
 
         System.out.println(stringLength.get());
+    }
+
+    @Test
+    @DisplayName("")
+    public void stringSplit() {
+
+        Arrays.stream("Himansu".split(""))
+                .collect(Collectors.joining(",", "[", "]"));
+
     }
 }

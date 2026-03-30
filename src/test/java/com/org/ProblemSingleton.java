@@ -1,4 +1,4 @@
-package com.org.test;
+package com.org;
 
 import java.io.Serializable;
 

@@ -1,7 +1,14 @@
-package com.org.test;
+package com.org;
 
+import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
 public class ProblemRotationCheck {
-    void main() {
+
+    @Test
+    public void stringRotationCheck() {
         String s1 = "abcde";
         String s2 = "deabc";
         System.out.println(isRotation(s1, s2)); // Output: true

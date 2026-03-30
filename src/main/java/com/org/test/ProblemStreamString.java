@@ -56,6 +56,9 @@ public class ProblemStreamString {
 
         // find the longest string in a list of string
         findLongestString();
+
+        // length of last word in a sentence
+        lenghtOfLastWordInASentence();
     }
 
     private static void occurrenceNumber() {
@@ -213,5 +216,14 @@ public class ProblemStreamString {
                 .sorted(Comparator.comparingInt(String::length).reversed())
                 .toList();
         System.out.println(sortedString.get(0));
+    }
+
+    private static void lenghtOfLastWordInASentence() {
+        System.out.println("lenghtOfLastWordInASentence()");
+        Optional<Integer> stringLength = Arrays.stream(string.split(" "))
+                .reduce((a, b) -> b)
+                .map(String::length);
+
+        System.out.println(stringLength.get());
     }
 }

@@ -1,6 +1,8 @@
 package com.org;
 
+import com.org.dto.City;
 import com.org.dto.Employee;
+import com.org.dto.Student;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -260,7 +262,7 @@ public class ProblemStreamString {
         var employees = List.of(frank, ace, keith, declan, barry);
 
         Employee employee = employees.stream()
-                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .sorted(Comparator.comparing(Employee::salary).reversed())
                 .skip(1)
                 .toList()
                 .get(0);
@@ -276,4 +278,15 @@ public class ProblemStreamString {
         System.out.println(partition);
     }
 
+    @Test
+    @DisplayName("Find student based on location or city and sort them alphabetically using stream API.")
+    public void findEmployeeBasedOnLocation() {
+        Student himansu = new Student("Himansu", City.DUBLIN);
+        Student pragya = new Student("Pragya", City.GALWAY);
+        Student kiaan = new Student("Kiaan", City.LIMERICK);
+        Student kyra = new Student("Kyera", City.CORK);
+
+
+
+    }
 }

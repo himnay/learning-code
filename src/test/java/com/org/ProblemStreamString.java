@@ -1,5 +1,7 @@
 package com.org;
 
+import com.org.dto.Employee;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
@@ -16,7 +19,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("occurrence of a character in a string")
     public void occurrenceNumber() {
-        System.out.println("");
         String name = "HimansuNayak";
         var occurrence = Arrays.stream(name.split(""))
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
@@ -26,7 +28,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("filter non null and non empty string")
     public void filterNonNullString() {
-        System.out.println("***filterNonNullString***");
         var names = Arrays.asList("Alice", " ", "Bob", "", "Charlie", "David", null);
         names.stream()
                 .filter(name -> StringUtils.isNotBlank(name))
@@ -36,7 +37,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("upper case string")
     public void upperCase() {
-        System.out.println("***upperCase***");
         List.of("apple", "orange", "banana", "kiwi", "kiwi")
                 .stream()
                 .map(String::toUpperCase)
@@ -46,7 +46,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("remove duplicate numbers")
     public void removeDup() {
-        System.out.println("***removeDup***");
         List.of(2, 2, 4, 3, 4, 5, 2, 5)
                 .stream()
                 .distinct()
@@ -56,7 +55,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("merge two list and remove duplicate numbers")
     public void mergeListAndDeDup() {
-        System.out.println("***mergeListAndDeDup***");
         var firstList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
         var secondList = List.of(5, 6, 7, 8, 9, 10);
 
@@ -69,7 +67,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("find the longest word in a list of string")
     public void longestWord() {
-        System.out.println("***longestWord***");
         var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
         Optional<String> size = list.stream()
                 .max(Comparator.comparingInt(String::length));
@@ -81,7 +78,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("reverse each string in a list and sort the list based on the reversed string")
     public void reverseAndSortString() {
-        System.out.println("***reverseAndSortString***");
         var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
         List<String> reverseAndSorted = list.stream()
                 .map(i -> new StringBuilder(i).reverse().toString())
@@ -94,7 +90,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("merge two list and remove all the numbers except 1 from the second list" )
     public void mergeList() {
-        System.out.println("***mergeList***");
         var listA = List.of(2, 3, 4, 2);
         var listB = List.of(1, 4, 2, 1, 5);
 
@@ -109,7 +104,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("move all the 1 from a list to the end of the list")
     public void moveAllOneToEnd() {
-        System.out.println("***moveAll111ToEnd***");
         var list = List.of(1, 2, 1, 3, 1, 4, 1);
 
         var collectedOne = list.stream().filter(i -> i == 1).toList();
@@ -120,7 +114,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("reverse a string")
     public void stringReverse() {
-        System.out.println("***stringReverse***");
         var name = "BankOfAmerica";
         System.out.println("String : " + name);
         var reverseString = Arrays.stream(name.split(""))
@@ -131,7 +124,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("sort a list of string in natural order and reverse order")
     public void sortStrings() {
-        System.out.println("***sortStrings***");
         var list = List.of("Test", "Mat", "RAT", "Apple", "Zebra");
 
         // natural order
@@ -155,7 +147,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("occurrence of a word in a list of string")
     public void occurrenceOfWord() {
-        System.out.println("***occurrenceOfWord***");
         var list = List.of("apple", "apple", "apple", "banana", "banana", "mango");
         var collect = list.stream()
                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
@@ -165,7 +156,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("find common word in three list of string")
     public void commonWord() {
-        System.out.println("***commonWord***");
         var listA = List.of("I", "am", "a", "Hero");
         var listB = List.of("Hero", "are", "good");
         var listC = List.of("Good", "Hero", "are", "paid", "well");
@@ -179,19 +169,18 @@ public class ProblemStreamString {
     @Test
     @DisplayName("filter numbers from an alpha numeric string and sum the numbers")
     public void filterNumbersFromAlphaNumericStringAndSum() {
-        System.out.println("filterNumbersFromAlphaNumericStringAndSum()");
         Character[] alphaNum = {'A', '1', 'l', '2', 'p', '3', 'h'};
 
         var numbers = Arrays.stream(alphaNum)
                 .filter(i -> Character.isDigit(i))
-                .toList();
+                .mapToInt(Character::getNumericValue)
+                .sum();
         System.out.println(numbers);
     }
 
     @Test
     @DisplayName("count the minimum occurrence of a character in a string")
     public void countMinOccurrence() {
-        System.out.println("countMinOccurrence()");
         Character[] characters = {'a', 'b', 'a', 'b', 'c', 'd', 'd', 'd'};
         Map<Character, Long> collect = Arrays.stream(characters)
                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
@@ -206,7 +195,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("find the longest string in a list of string")
     public void findLongestString() {
-        System.out.println("findLongestString()");
         var strings = List.of("Hello", "Encylopedia", "Tiger", "Architecture");
 
         List<String> sortedString = strings.stream()
@@ -218,7 +206,6 @@ public class ProblemStreamString {
     @Test
     @DisplayName("length of last word in a sentence")
     public void lengthOfLastWordInASentence() {
-        System.out.println("lenghtOfLastWordInASentence()");
         var string = "Good Morning. How are you?";
         Optional<Integer> stringLength = Arrays.stream(string.split(" "))
                 .reduce((a, b) -> b)
@@ -235,5 +222,58 @@ public class ProblemStreamString {
                 .collect(Collectors.joining(",", "[", "]"));
     }
 
+    @Test
+    @DisplayName("find the string which has unique characters")
+    public void uniqueCharacters() {
+        // option 1
+        Set set = new HashSet();
+        String string = "beta";
+        List<String> dupCharacter = Arrays.stream(string.split(""))
+                .filter(i -> set.add(i) == false)
+                .toList();
+        if(CollectionUtils.isNotEmpty(dupCharacter)) {
+            System.out.println("Duplicate character in string " + string);
+        } else {
+            System.out.println("Unique character in string " + string);
+        }
+
+        // option 2
+        long count = "alpha".chars()
+                .mapToObj(c -> (char) c)
+                .distinct()
+                .count();
+
+        if("alpha".length() != count) {
+            System.out.println("Duplicate character in string " + "alpha");
+        }
+    }
+
+    @Test
+    @DisplayName("Second highest salary of an employee")
+    public void secondHighestSalary() {
+        Employee frank = new Employee("frank", "IT", 25, 3000.0, 9922001);
+        Employee ace = new Employee("Ace", "IT", 24, 4000.0, 9922002);
+        Employee keith = new Employee("Keith", "HR", 33, 2000.0, 9922323);
+        Employee declan = new Employee("Declan", "Finance", 35, 5000.0, 9927652);
+        Employee barry = new Employee("Barry", "Finance", 45, 8000.0, 9922876);
+
+        var employees = List.of(frank, ace, keith, declan, barry);
+
+        Employee employee = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .skip(1)
+                .toList()
+                .get(0);
+        System.out.println(employee);
+    }
+
+    @Test
+    @DisplayName("Partition numbers to even and odd")
+    public void partitionOddEven() {
+        var partition = IntStream.rangeClosed(1, 20)
+                .boxed() // convert IntStream to Stream<Integer>
+                .collect(Collectors.partitioningBy(i -> i % 2 == 0));
+        System.out.println(partition);
+    }
 
 }

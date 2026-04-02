@@ -1,8 +1,8 @@
-package com.org;
+package com.org.learning;
 
-import com.org.dto.City;
-import com.org.dto.Employee;
-import com.org.dto.Student;
+import com.org.learning.dto.City;
+import com.org.learning.dto.Employee;
+import com.org.learning.dto.Student;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -281,12 +281,29 @@ public class ProblemStreamString {
     @Test
     @DisplayName("Find student based on location or city and sort them alphabetically using stream API.")
     public void findEmployeeBasedOnLocation() {
-        Student himansu = new Student("Himansu", City.DUBLIN);
-        Student pragya = new Student("Pragya", City.GALWAY);
-        Student kiaan = new Student("Kiaan", City.LIMERICK);
-        Student kyra = new Student("Kyera", City.CORK);
+        Student student_1 = new Student("John", City.DUBLIN);
+        Student student_2 = new Student("Alpha", City.DUBLIN);
+        Student student_3 = new Student("Mickey", City.GALWAY);
+        Student student_4 = new Student("Donald", City.GALWAY);
+        Student student_5 = new Student("Kiaan", City.LIMERICK);
+        Student student_6 = new Student("Kyra", City.CORK);
+        Student student_7 = new Student("Himansu", City.CORK);
 
+        var students = List.of(student_1, student_2, student_3, student_4, student_5, student_6, student_7);
 
+        // style 1
+        var sortedStudents = students.stream()
+                .filter(s -> s.city() == City.DUBLIN)
+                .sorted(Comparator.comparing(Student::name))
+                .map(Student::name)// map before collecting
+                .toList();
 
+        // style 2
+        sortedStudents = students.stream()
+                .filter(s -> s.city() == City.DUBLIN)
+                .sorted(Comparator.comparing(Student::name))
+                .collect(Collectors.mapping(Student::name, Collectors.toList())); // map during collecting
+
+        System.out.println(sortedStudents);
     }
 }

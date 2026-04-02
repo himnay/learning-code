@@ -1,4 +1,4 @@
-package com.org;
+package com.org.learning;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;

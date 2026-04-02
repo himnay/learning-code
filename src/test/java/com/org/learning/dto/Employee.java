@@ -1,4 +1,4 @@
-package com.org.dto;
+package com.org.learning.dto;
 
 public record Employee(
         String name,

@@ -1,4 +1,4 @@
-package com.org;
+package com.org.learning;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

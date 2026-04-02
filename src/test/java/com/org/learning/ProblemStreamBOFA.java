@@ -1,9 +1,10 @@
-package com.org;
+package com.org.learning;
 
-import com.org.dto.Employee;
+import com.org.learning.dto.Employee;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
@@ -32,24 +33,24 @@ public class ProblemStreamBOFA {
 
         //2. Get Minimum & Maximum Salary Employee details in each department
         employees.stream()
-                .collect(groupingBy(Employee::getDepartment, minBy(Comparator.comparing(Employee::salary))));
+                .collect(groupingBy(Employee::department, Collectors.minBy(Comparator.comparing(Employee::salary))));
         employees.stream()
-                .collect(groupingBy(Employee::getDepartment, minBy(Comparator.comparing(Employee::getDepartment))));
+                .collect(groupingBy(Employee::department, Collectors.minBy(Comparator.comparing(Employee::department))));
 
         //3. Get total salary by department
         //5. Process dataset in parallel
         employees.stream()
-                .collect(groupingByConcurrent(Employee::getDepartment, summingDouble(Employee::salary)));
+                .collect(groupingByConcurrent(Employee::department, summingDouble(Employee::salary)));
 
         //4. Get Average salary by department
         //5. Process dataset in parallel
         employees.stream()
-                .collect(groupingByConcurrent(Employee::getDepartment, averagingDouble(Employee::salary)));
+                .collect(groupingByConcurrent(Employee::department, averagingDouble(Employee::salary)));
 
         //6. Create 2 groups i.e. GROUP 1 has employees who have salary < = 3000 and GROUP 2 has employees > 3000
         employees.stream()
-                .collect(groupingBy(e -> e.getSalary() <= 3000 ? "Low Salary" : "High Salary"));
+                .collect(groupingBy(e -> e.salary() <= 3000 ? "Low Salary" : "High Salary"));
         employees.stream()
-                .collect(partitioningBy(e -> e.getSalary() <= 3000));
+                .collect(partitioningBy(e -> e.salary() <= 3000));
     }
 }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -305,5 +306,49 @@ public class ProblemStreamString {
                 .collect(Collectors.mapping(Student::name, Collectors.toList())); // map during collecting
 
         System.out.println(sortedStudents);
+    }
+
+    @Test
+    @DisplayName("Given a List<String> of sentences, count the total frequency of each word across all sentences (case-insensitive), " +
+            "and return a Map<String, Long> sorted by frequency descending")
+    public void countSortFrequency() {
+        List<String> listOfSentence = List.of(
+                "When I wake up in the morning",
+                "When I wake up in the morning",
+                "When I wake up in the morning");
+
+        var sortedMap = listOfSentence.stream()
+                .map(i -> Arrays.stream(i.split(" ")))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
+
+        sortedMap.entrySet().stream().forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+    }
+
+    @Test
+    @DisplayName("Given a List<Employee>, group employees by department and then for each department return a comma-separated string of employee names sorted alphabetically.")
+    public void groupSeparateAndSort() {
+        Student student_1 = new Student("John", City.DUBLIN);
+        Student student_2 = new Student("Alpha", City.DUBLIN);
+        Student student_3 = new Student("Mickey", City.GALWAY);        Student student_4 = new Student("Donald", City.GALWAY);
+        Student student_5 = new Student("Kiaan", City.LIMERICK);
+        Student student_6 = new Student("Kyra", City.CORK);
+        Student student_7 = new Student("Himansu", City.CORK);
+
+        var students = List.of(student_1, student_2, student_3, student_4, student_5, student_6, student_7);
+
+        Function<List<Student>,  String> sortAndCollectStudentName = i -> i.stream()
+                .sorted(Comparator.comparing(Student::name))
+                .map(Student::name)
+                .collect(Collectors.joining(","));
+
+        Map<City, String> result = students.stream()
+                .collect(Collectors.groupingBy(Student::city,
+                        Collectors.collectingAndThen(Collectors.toList(), list -> sortAndCollectStudentName.apply(list))));
+
+        System.out.println(result);
     }
 }

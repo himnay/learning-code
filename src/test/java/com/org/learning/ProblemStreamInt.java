@@ -5,10 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -177,5 +175,23 @@ public class ProblemStreamInt {
         System.out.println(sum);
     }
 
-}
+    @Test
+    @DisplayName("Flatten a List<List<Integer>> and find the top 3 distinct numbers in descending order")
+    public void flattenAndDistinctDescending() {
+        List<List<Integer>> nestedNumbers = List.of(
+                List.of(1,2,3,4,5),
+                List.of(5,4,3,2,1),
+                List.of(6,7,8,9,10),
+                List.of(10,9,8,7,6)
+        );
 
+        List<Integer> sortedNumbers = nestedNumbers.stream()
+                .flatMap(i -> i.stream())
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+
+        System.out.println(sortedNumbers);
+    }
+
+}

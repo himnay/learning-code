@@ -1,4 +1,4 @@
-package com.org.learning;
+package com.org.learning.stream;
 
 import com.org.learning.dto.Employee;
 

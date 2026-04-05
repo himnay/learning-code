@@ -1,4 +1,4 @@
-package com.org.learning;
+package com.org.learning.singleton;
 
 import java.io.Serializable;
 

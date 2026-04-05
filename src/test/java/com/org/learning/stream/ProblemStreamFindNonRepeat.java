@@ -1,4 +1,4 @@
-package com.org.learning;
+package com.org.learning.stream;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

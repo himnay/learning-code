@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -69,13 +70,21 @@ public class ProblemStreamInt {
         // option 2
         OptionalInt reduce = IntStream.rangeClosed(1, 5)
                 .reduce((a, b) -> a + b);
-        System.out.println(reduce);
+        System.out.println(reduce.getAsInt());
 
         // option 3
         var numbers = List.of(1, 2, 3, 4, 5);
         Optional<Integer> collectReduce = numbers.stream()
                 .collect(Collectors.reducing((x, y) -> x + y));
-        System.out.println(collectReduce);
+        System.out.println(collectReduce.get());
+
+        // option 4
+        AtomicInteger atomicInteger = new AtomicInteger();
+        IntStream.rangeClosed(1, 5)
+                .map(i -> atomicInteger.addAndGet(i))
+                .boxed()
+                .collect(Collectors.toList());
+        System.out.println(atomicInteger.get());
     }
 
     @Test

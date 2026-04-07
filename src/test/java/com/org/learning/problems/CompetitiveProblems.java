@@ -1,9 +1,13 @@
 package com.org.learning.problems;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @ExtendWith(MockitoExtension.class)
 public class CompetitiveProblems {
@@ -46,5 +50,26 @@ public class CompetitiveProblems {
 
     }
 
+    @Test
+    @DisplayName("find if 2 strings are anagrams")
+    public void findIfTwoStringAreAnagrams() {
+
+        String first = "LISTEN";
+        String second = "SILENT";
+
+        if (first == null || second == null) {
+            System.out.println("Both strings should not be null");
+        } else if (first.length() != second.length()) {
+            System.out.println("Both strings should have same length");
+        } else {
+            String sortedFristString = Arrays.stream(first.split("")).sorted().filter(i -> StringUtils.isNotBlank(i)).collect(Collectors.joining());
+            String sortedSecondString = Arrays.stream(second.split("")).sorted().filter(i -> StringUtils.isNotBlank(i)).collect(Collectors.joining());
+
+            System.out.println("first = " + first + ", second = " + second);
+            System.out.println("SortedFirstString = " + sortedFristString + ", SortedSecondString = " + sortedSecondString);
+            System.out.println("Are both anagrams : " + sortedFristString.equalsIgnoreCase(sortedSecondString));
+        }
+
+    }
 
 }

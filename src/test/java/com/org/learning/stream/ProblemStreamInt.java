@@ -27,19 +27,17 @@ public class ProblemStreamInt {
     @Test
     @DisplayName("find min and max number in a list")
     public void minMaxNumber() {
-        var numbers = IntStream.rangeClosed(1, 10)
+        var minNumber = IntStream.rangeClosed(1, 10)
                 .boxed()
-                .toList();
+                .min(Integer::compareTo)
+                .get();
+        System.out.println(minNumber);
 
-        var maxNumber = numbers.stream()
+        var maxNumber = IntStream.rangeClosed(1, 10)
+                .boxed()
                 .max((i, j) -> i.compareTo(j))
                 .get();
         System.out.println(maxNumber);
-
-        var minNumber = numbers.stream()
-                .min((i, j) -> i.compareTo(j))
-                .get();
-        System.out.println(minNumber);
     }
 
     @Test
@@ -157,7 +155,7 @@ public class ProblemStreamInt {
     public void reverseArrayOfInt() {
         var numbers = List.of(5, 4, 3, 2, 1);
 
-        var reverseNumbers = numbers.stream()
+        var reverseNumbers = numbers.reversed().stream()
                 .sorted()
                 .toList();
         System.out.println(numbers);
@@ -180,7 +178,12 @@ public class ProblemStreamInt {
         var numbers = List.of(1, 2, 3, 4, 5, 6);
         Long sum = numbers.stream()
                 .reduce(0L, (count, a) -> a % 2 == 0 ? count + 1 : count, Long::sum);
-        System.out.println(sum);
+
+        Map<Boolean, Long> result = numbers.stream()
+                .collect(Collectors.partitioningBy(n -> n % 2 == 0, Collectors.counting()));
+
+        System.out.println("Even Count : " + result.get(true));
+        System.out.println("Odd Count : " + result.get(false));
     }
 
     @Test

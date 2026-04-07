@@ -22,7 +22,7 @@ public class ProblemStreamString {
     @Test
     @DisplayName("occurrence of a character in a string")
     public void occurrenceNumber() {
-        String name = "HimansuNayak";
+        String name = "Himansu Nayak";
         var occurrence = Arrays.stream(name.split(""))
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
         System.out.println(occurrence);
@@ -32,27 +32,30 @@ public class ProblemStreamString {
     @DisplayName("filter non null and non empty string")
     public void filterNonNullString() {
         var names = Arrays.asList("Alice", " ", "Bob", "", "Charlie", "David", null);
-        names.stream()
+        var filterNames = names.stream()
                 .filter(name -> StringUtils.isNotBlank(name))
-                .forEach(i -> System.out.println("i = " + i));
+                .toList();
+        System.out.println(filterNames);
     }
 
     @Test
     @DisplayName("upper case string")
     public void upperCase() {
-        List.of("apple", "orange", "banana", "kiwi", "kiwi")
-                .stream()
+        var fruits = List.of("apple", "orange", "banana", "kiwi", "kiwi");
+        var upperCaseFruits = fruits.stream()
                 .map(String::toUpperCase)
-                .forEach(System.out::println);
+                .toList();
+        System.out.println(upperCaseFruits);
     }
 
     @Test
     @DisplayName("remove duplicate numbers")
     public void removeDup() {
-        List.of(2, 2, 4, 3, 4, 5, 2, 5)
+        var unique = List.of(2, 2, 4, 3, 4, 5, 2, 5)
                 .stream()
                 .distinct()
-                .forEach(System.out::println);
+                .toList();
+        System.out.println(unique);
     }
 
     @Test
@@ -61,7 +64,13 @@ public class ProblemStreamString {
         var firstList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
         var secondList = List.of(5, 6, 7, 8, 9, 10);
 
-        var mergeList = Stream.concat(firstList.stream(), secondList.stream())
+        // you can merge n streams
+        var mergeList = Stream.of(firstList.stream(), secondList.stream())
+                .distinct()
+                .toList();
+
+        // you can merge 2 streams only
+        var distinctList = Stream.concat(firstList.stream(), secondList.stream())
                 .distinct()
                 .toList();
         System.out.println(mergeList);
@@ -70,18 +79,18 @@ public class ProblemStreamString {
     @Test
     @DisplayName("find the longest word in a list of string")
     public void longestWord() {
-        var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
+        var list = List.of("alpha", "Medicine", "Encyclopedia", "Hippopotamus", "Dolphin");
         Optional<String> size = list.stream()
                 .max(Comparator.comparingInt(String::length));
         if (size.isPresent()) {
-            System.out.println("Longest word " + size.get().length());
+            System.out.println("Longest word " + size.get());
         }
     }
 
     @Test
     @DisplayName("reverse each string in a list and sort the list based on the reversed string")
     public void reverseAndSortString() {
-        var list = List.of("alpha", "Medicine", "Encylopedia", "Hippopotamus", "Dolphin");
+        var list = List.of("alpha", "Medicine", "Encyclopedia", "Hippopotamus", "Dolphin");
         List<String> reverseAndSorted = list.stream()
                 .map(i -> new StringBuilder(i).reverse().toString())
                 .sorted()
@@ -109,9 +118,8 @@ public class ProblemStreamString {
     public void moveAllOneToEnd() {
         var list = List.of(1, 2, 1, 3, 1, 4, 1);
 
-        var collectedOne = list.stream().filter(i -> i == 1).toList();
-        var filterList = list.stream().filter(i -> i != 1).toList();
-        var mergeList = Stream.concat(filterList.stream(), collectedOne.stream());
+        var changedList = Stream.concat(list.stream().filter(i -> i != 1), list.stream().filter(i -> i == 1)).toList();
+        System.out.println(changedList);
     }
 
     @Test
@@ -200,6 +208,10 @@ public class ProblemStreamString {
     public void findLongestString() {
         var strings = List.of("Hello", "Encylopedia", "Tiger", "Architecture");
 
+        Optional<String> longestStringLength = strings.stream()
+                .max(Comparator.comparing(String::length));
+        System.out.println(longestStringLength);
+
         List<String> sortedString = strings.stream()
                 .sorted(Comparator.comparingInt(String::length).reversed())
                 .toList();
@@ -221,8 +233,9 @@ public class ProblemStreamString {
     @DisplayName("split a string and join with comma and add square bracket at the beginning and end of the string")
     public void stringSplit() {
 
-        Arrays.stream("Himansu".split(""))
+        String changedString = Arrays.stream("Himansu".split(""))
                 .collect(Collectors.joining(",", "[", "]"));
+        System.out.println(changedString);
     }
 
     @Test

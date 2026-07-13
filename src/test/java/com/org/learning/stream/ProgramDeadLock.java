@@ -7,7 +7,7 @@ public class ProgramDeadLock {
     private static final ReentrantLock lock1 = new ReentrantLock();
     private static final ReentrantLock lock2 = new ReentrantLock();
 
-    void main() {
+    public static void main() {
         // Thread 1 tries to acquire lock1 then lock2
         Thread thread1 = new Thread(() -> {
             try {

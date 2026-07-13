@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ProblemStreamFindNonRepeat {
-    void main() {
+    public static void main () {
         String test = "abcabcaaccddee";
         Optional<Integer> firstNonRepeat = test.chars()
                 .mapToObj(c -> c)

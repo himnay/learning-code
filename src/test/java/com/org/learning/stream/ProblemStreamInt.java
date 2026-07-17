@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @ExtendWith(MockitoExtension.class)
-public class ProblemStreamInt {
+class ProblemStreamInt {
 
     @Test
     @DisplayName("filter even number and double it")
-    public void evenNumber() {
+    void evenNumber() {
         var evenNumber = IntStream.rangeClosed(1, 10)
                 .filter(i -> i % 2 == 0)
                 .boxed()
@@ -26,7 +26,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find min and max number in a list")
-    public void minMaxNumber() {
+    void minMaxNumber() {
         var minNumber = IntStream.rangeClosed(1, 10)
                 .boxed()
                 .min(Integer::compareTo)
@@ -42,7 +42,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find min and max number in a list using reduce")
-    public void minMaxNumberUsingReduce() {
+    void minMaxNumberUsingReduce() {
         var numbers = List.of(3, 2, 1);
 
         var maxNumber = numbers.stream()
@@ -59,7 +59,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find sum of number in a list")
-    public void sumNumber() {
+    void sumNumber() {
         // option 1
         int sum = IntStream.rangeClosed(1, 5)
                 .sum();
@@ -87,7 +87,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find duplicate numbers in a list")
-    public void findDuplicateNumbers() {
+    void findDuplicateNumbers() {
         var numbers = List.of(1, 2, 2, 3, 4, 4, 5);
         var dupNumbers = new HashSet<>();
 
@@ -99,7 +99,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find missing number in a list")
-    public void findMissingNoInAList() {
+    void findMissingNoInAList() {
         var numbers = List.of(2, 5, 8, 10);
         System.out.println("List of numbers : " + numbers);
 
@@ -117,7 +117,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find even and odd numbers in a list")
-    public void generateEvenOddNumbers() {
+    void generateEvenOddNumbers() {
         var evenNumbers = IntStream.iterate(2, i -> i + 2)
                 .limit(5)
                 .boxed()
@@ -134,7 +134,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find second smallest and second largest number in a list")
-    public void secondSmallestLargest() {
+    void secondSmallestLargest() {
         OptionalInt smallest = IntStream.rangeClosed(1, 10)
                 .boxed()
                 .sorted()
@@ -152,7 +152,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("reverse an array of int and sort it")
-    public void reverseArrayOfInt() {
+    void reverseArrayOfInt() {
         var numbers = List.of(5, 4, 3, 2, 1);
 
         var reverseNumbers = numbers.reversed().stream()
@@ -164,7 +164,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("find longest and shortest word in a list of string")
-    public void longAndShortWord() {
+    void longAndShortWord() {
         var strings = List.of("Hi", "Hello", "HelloWorld", "Test", "Spring");
 
         Optional<String> longestWord = strings.stream()
@@ -174,7 +174,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("count even and odd numbers in a list")
-    public void countEvenOddNumbers() {
+    void countEvenOddNumbers() {
         var numbers = List.of(1, 2, 3, 4, 5, 6);
         Long sum = numbers.stream()
                 .reduce(0L, (count, a) -> a % 2 == 0 ? count + 1 : count, Long::sum);
@@ -188,7 +188,7 @@ public class ProblemStreamInt {
 
     @Test
     @DisplayName("Flatten a List<List<Integer>> and find the top 3 distinct numbers in descending order")
-    public void flattenAndDistinctDescending() {
+    void flattenAndDistinctDescending() {
         List<List<Integer>> nestedNumbers = List.of(
                 List.of(1,2,3,4,5),
                 List.of(5,4,3,2,1),

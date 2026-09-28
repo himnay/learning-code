@@ -35,3 +35,16 @@ jobs:
       - name: Build and test
         run: mvn -B verify
         working-directory: learning-code
+      # The reports matter most when a test fails, so build and upload them regardless.
+      - name: Allure report
+        if: always()
+        run: mvn -B allure:report
+        working-directory: learning-code
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            learning-code/target/test-graph/index.html
+            learning-code/target/site/allure-maven-plugin/index.html

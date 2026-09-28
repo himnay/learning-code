@@ -17,14 +17,27 @@
     <name>Learning :: Java code</name>
     <description>Runnable Java examples and interview problems referenced from the learning notes</description>
 
-    <!-- Java version, Spring Boot, JUnit and every other dependency version come from super-pom /
-         learning-bom. Only commons-collections4 is pinned here, because the BOM doesn't manage it. -->
-
     <properties>
-        <!-- A library of examples, not an application: there is no main class to repackage. -->
         <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
         <commons-collections4.version>4.6.0</commons-collections4.version>
+        <!-- Allure: allure-java's JUnit Jupiter adapter writes target/allure-results while the tests
+             run, and allure-maven turns them into an Allure 2 report (github.com/allure-framework/allure2). -->
+        <allure-java.version>3.0.0</allure-java.version>
+        <allure-maven.version>3.1.0</allure-maven.version>
+        <allure-report.version>2.46.1</allure-report.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure-java.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -48,6 +61,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Registers itself with the JUnit Platform through the ServiceLoader: nothing to annotate. -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- The test knowledge graph (com.org.learning.report) is a JUnit Platform TestExecutionListener. -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -66,6 +91,18 @@
                         <include>**/Problem*.java</include>
                         <include>**/CompetitiveProblems.java</include>
                     </includes>
+                </configuration>
+            </plugin>
+            <!-- mvn allure:report -> target/site/allure-maven-plugin/index.html; mvn allure:serve opens it -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+                <configuration>
+                    <!-- A 2.x version selects the Allure 2 report; the plugin defaults to Allure 3. -->
+                    <reportVersion>${allure-report.version}</reportVersion>
+                    <!-- One self-contained index.html that opens straight from the file system. -->
+                    <singleFile>true</singleFile>
                 </configuration>
             </plugin>
         </plugins>

@@ -18,6 +18,52 @@ git clone https://github.com/himnay/learning-bom && (cd learning-bom && mvn -N i
 git clone https://github.com/himnay/super-pom && (cd super-pom && mvn -N install)
 ```
 
+## <span style="color:hsl(30,80%,58%)">Test reports</span>
+
+Every test run feeds two reports. Each is a single self-contained HTML file that opens straight from
+the file system, and CI uploads both as the `test-reports` artifact of every run.
+
+| Report               | Produced by                              | Open                                         |
+|----------------------|------------------------------------------|----------------------------------------------|
+| Test knowledge graph | `mvn test`, or any test run from the IDE | `target/test-graph/index.html`               |
+| Allure report        | `mvn test`, then `mvn allure:report`     | `target/site/allure-maven-plugin/index.html` |
+
+### <span style="color:hsl(200,80%,58%)">Test knowledge graph</span>
+
+A graph of packages → classes → tests, plus the classes each test class uses (the DTOs). A test's
+colour is its last result: passed, failed, skipped or not run. Clicking a node opens a panel:
+
+- ***test***: its description (the `@DisplayName`), its result with the duration (and the stack trace
+  of a failure), and its source code;
+- ***class***: a table of its tests with descriptions and results, the classes it uses or is used by,
+  and its source;
+- ***package*** and ***project***: counts, with the failed tests listed first.
+
+Search matches descriptions, method names and class names, and the legend chips filter by kind or
+result. Every test and class links to its source on GitHub and in VS Code.
+
+[`KnowledgeGraphListener`](src/test/java/com/org/learning/report/KnowledgeGraphListener.java) writes the
+page. It is a JUnit Platform `TestExecutionListener`, registered in
+[`META-INF/services`](src/test/resources/META-INF/services/org.junit.platform.launcher.TestExecutionListener)
+the same way the Allure adapter hooks in, so no test needs extra code. A test without `@DisplayName`
+is described by the comment above it, or else by its method name. `-Dtest.graph.enabled=false` turns
+the page off.
+
+### <span style="color:hsl(330,80%,58%)">Allure report</span>
+
+The report is [Allure 2](https://github.com/allure-framework/allure2). The `allure-jupiter` adapter
+(allure-java 3.0.0) records every test into `target/allure-results`, and the `allure-maven` plugin
+(3.1.0, set to report version 2.46.1) builds the report from those results:
+
+```bash
+mvn test            # runs the tests and writes target/allure-results
+mvn allure:report   # builds target/site/allure-maven-plugin/index.html (a single file)
+mvn allure:serve    # builds the report into a temporary folder and opens it in the browser
+```
+
+Each test's `@DisplayName` becomes its name in the report. On first use the plugin downloads the Allure
+2 command line into `.allure/`, which git ignores.
+
 ## <span style="color:hsl(270,80%,58%)">Layout</span>
 
 ```

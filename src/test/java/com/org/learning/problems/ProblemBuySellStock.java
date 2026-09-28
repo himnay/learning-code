@@ -1,7 +1,7 @@
 package com.org.learning.problems;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -18,12 +18,12 @@ public class ProblemBuySellStock {
         Integer maxStock = Integer.MIN_VALUE;
         int profit = 0;
         int maxProfit = Integer.MIN_VALUE;
-        for(int stock : stocks) {
-            if(stock < minStock) {
+        for (int stock : stocks) {
+            if (stock < minStock) {
                 minStock = stock;
             }
             profit = stock - minStock;
-            if(profit > maxProfit) {
+            if (profit > maxProfit) {
                 maxProfit = profit;
                 maxStock = stock;
             }

@@ -190,10 +190,10 @@ class ProblemStreamInt {
     @DisplayName("Flatten a List<List<Integer>> and find the top 3 distinct numbers in descending order")
     void flattenAndDistinctDescending() {
         List<List<Integer>> nestedNumbers = List.of(
-                List.of(1,2,3,4,5),
-                List.of(5,4,3,2,1),
-                List.of(6,7,8,9,10),
-                List.of(10,9,8,7,6)
+                List.of(1, 2, 3, 4, 5),
+                List.of(5, 4, 3, 2, 1),
+                List.of(6, 7, 8, 9, 10),
+                List.of(10, 9, 8, 7, 6)
         );
 
         List<Integer> sortedNumbers = nestedNumbers.stream()

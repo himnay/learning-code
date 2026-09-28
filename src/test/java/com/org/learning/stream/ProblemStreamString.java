@@ -5,8 +5,8 @@ import com.org.learning.dto.Employee;
 import com.org.learning.dto.Student;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -100,7 +100,7 @@ public class ProblemStreamString {
     }
 
     @Test
-    @DisplayName("merge two list and remove all the numbers except 1 from the second list" )
+    @DisplayName("merge two list and remove all the numbers except 1 from the second list")
     public void mergeList() {
         var listA = List.of(2, 3, 4, 2);
         var listB = List.of(1, 4, 2, 1, 5);
@@ -247,7 +247,7 @@ public class ProblemStreamString {
         List<String> dupCharacter = Arrays.stream(string.split(""))
                 .filter(i -> set.add(i) == false)
                 .toList();
-        if(CollectionUtils.isNotEmpty(dupCharacter)) {
+        if (CollectionUtils.isNotEmpty(dupCharacter)) {
             System.out.println("Duplicate character in string " + string);
         } else {
             System.out.println("Unique character in string " + string);
@@ -259,7 +259,7 @@ public class ProblemStreamString {
                 .distinct()
                 .count();
 
-        if("alpha".length() != count) {
+        if ("alpha".length() != count) {
             System.out.println("Duplicate character in string " + "alpha");
         }
     }
@@ -346,14 +346,15 @@ public class ProblemStreamString {
     public void groupSeparateAndSort() {
         Student student_1 = new Student("John", City.DUBLIN);
         Student student_2 = new Student("Alpha", City.DUBLIN);
-        Student student_3 = new Student("Mickey", City.GALWAY);        Student student_4 = new Student("Donald", City.GALWAY);
+        Student student_3 = new Student("Mickey", City.GALWAY);
+        Student student_4 = new Student("Donald", City.GALWAY);
         Student student_5 = new Student("Kiaan", City.LIMERICK);
         Student student_6 = new Student("Kyra", City.CORK);
         Student student_7 = new Student("Himansu", City.CORK);
 
         var students = List.of(student_1, student_2, student_3, student_4, student_5, student_6, student_7);
 
-        Function<List<Student>,  String> sortAndCollectStudentName = i -> i.stream()
+        Function<List<Student>, String> sortAndCollectStudentName = i -> i.stream()
                 .sorted(Comparator.comparing(Student::name))
                 .map(Student::name)
                 .collect(Collectors.joining(","));

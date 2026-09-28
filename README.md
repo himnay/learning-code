@@ -2,7 +2,7 @@
 
 A practice module for Java coding problems — Streams API exercises, classic interview / competitive-programming problems (Blind 75 style), concurrency, and design patterns. All code lives under the **test** source root (`src/test/java`) and is executed as JUnit tests (or runnable `main()` snippets).
 
-- **Java version:** 25 (set via `maven.compiler.source/target`)
+- **Java version:** 27 (inherited from the `super-pom` parent's `java.version`, so `maven.compiler.release` is 27)
 - **Dependencies:** Lombok (provided), `spring-boot-starter-test` (JUnit 5 etc.)
 - **Run all tests:** `mvn test` (from this module)
 - **Run one class:** `mvn test -Dtest=CompetitiveProblems`

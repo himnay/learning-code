@@ -1,4 +1,4 @@
-package com.org.learning.stream;
+package com.org.learning.core.stream;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;

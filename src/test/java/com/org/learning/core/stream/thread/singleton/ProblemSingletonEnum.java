@@ -1,4 +1,4 @@
-package com.org.learning.singleton;
+package com.org.learning.core.stream.thread.singleton;
 
 import lombok.Getter;
 

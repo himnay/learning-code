@@ -1,4 +1,4 @@
-package com.org.learning.stream;
+package com.org.learning.core.stream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

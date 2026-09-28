@@ -1,11 +1,22 @@
-# <span style="color:hsl(132,80%,58%)">java-code</span>
+# <span style="color:hsl(132,80%,58%)">learning-code</span>
 
-A practice module for Java coding problems — Streams API exercises, classic interview / competitive-programming problems (Blind 75 style), concurrency, and design patterns. All code lives under the **test** source root (`src/test/java`) and is executed as JUnit tests (or runnable `main()` snippets).
+A practice project for Java coding problems — Streams API exercises, classic interview / competitive-programming problems (Blind 75 style), concurrency, and design patterns. All code lives under the **test** source root (`src/test/java`) and is executed as JUnit tests (or runnable `main()` snippets).
 
 - **Java version:** 27 (inherited from the `super-pom` parent's `java.version`, so `maven.compiler.release` is 27)
-- **Dependencies:** Lombok (provided), `spring-boot-starter-test` (JUnit 5 etc.)
-- **Run all tests:** `mvn test` (from this module)
+- **Dependencies:** Lombok (provided); for tests `spring-boot-starter-test` (JUnit 5, AssertJ, Mockito), `commons-lang3` and `commons-collections4`
+- **Run all tests:** `mvn test` (from the repo root)
 - **Run one class:** `mvn test -Dtest=CompetitiveProblems`
+
+This project used to be the `java-code/` module of the `learning` notes repository and moved here with its
+git history. The notes link to these examples instead of copying code.
+
+**Build prerequisites:** JDK 27 and Maven 3.9+. The parent POM `com.org.llm:super-pom` and the
+`learning-bom` it imports are not on Maven Central, so install both once from their own repositories:
+
+```bash
+git clone https://github.com/himnay/learning-bom && (cd learning-bom && mvn -N install)
+git clone https://github.com/himnay/super-pom && (cd super-pom && mvn -N install)
+```
 
 ## <span style="color:hsl(270,80%,58%)">Layout</span>
 

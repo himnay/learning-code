@@ -4,13 +4,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.org.learning</groupId>
-        <artifactId>learning</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <groupId>com.org.llm</groupId>
+        <artifactId>super-pom</artifactId>
+        <version>1.2.0</version>
+        <relativePath/>
     </parent>
 
-    <artifactId>java-code</artifactId>
+    <groupId>com.org.learning</groupId>
+    <artifactId>learning-code</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>Learning :: Java code</name>
+    <description>Runnable Java examples and interview problems referenced from the learning notes</description>
+
+    <!-- Java version, Spring Boot, JUnit and every other dependency version come from super-pom /
+         learning-bom. Only commons-collections4 is pinned here, because the BOM doesn't manage it. -->
 
     <properties>
         <!-- A library of examples, not an application: there is no main class to repackage. -->

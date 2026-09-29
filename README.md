@@ -1,24 +1,84 @@
 # <span style="color:hsl(132,80%,58%)">learning-code</span>
 
-A practice project for Java coding problems — Streams API exercises, classic interview / competitive-programming problems (Blind 75 style), concurrency, and design patterns. All code lives under the **test** source root (`src/test/java`) and is executed as JUnit tests (or runnable `main()` snippets).
+## <span style="color:hsl(270,80%,58%)">Table of contents</span>
 
-- **Java version:** 27 (inherited from the `super-pom` parent's `java.version`, so `maven.compiler.release` is 27)
-- **Dependencies:** Lombok (provided); for tests `spring-boot-starter-test` (JUnit 5, AssertJ, Mockito), `commons-lang3` and `commons-collections4`
-- **Run all tests:** `mvn test` (from the repo root)
-- **Run one class:** `mvn test -Dtest=CompetitiveProblems`
+1. 📖 [Overview](#overview)
+2. 🚀 [Build and run](#build-and-run)
+    - 2.1 [Prerequisites](#prerequisites)
+    - 2.2 [Running the tests](#running-the-tests)
+    - 2.3 [Continuous integration](#continuous-integration)
+3. 📊 [Test reports](#test-reports)
+    - 3.1 [Test knowledge graph](#test-knowledge-graph)
+    - 3.2 [Allure report](#allure-report)
+4. 🗂️ [Project layout](#project-layout)
+5. 🧱 [DTOs](#dtos)
+6. 🌊 [Streams API](#streams-api)
+    - 6.1 [ProblemStreamInt — numeric stream exercises](#problem-stream-int)
+    - 6.2 [ProblemStreamString — string and collection stream exercises](#problem-stream-string)
+    - 6.3 [Other stream and concurrency programs](#other-stream-programs)
+7. 🧩 [Interview problems](#interview-problems)
+    - 7.1 [Standalone problems](#standalone-problems)
+    - 7.2 [CompetitiveProblems — Blind-75-style collection](#competitive-problems)
+8. 🏗️ [Design patterns](#design-patterns)
+9. 📝 [Scratch pad](#scratch-pad)
 
-This project used to be the `java-code/` module of the `learning` notes repository and moved here with its
-git history. The notes link to these examples instead of copying code.
+<a id="overview"></a>
+## <span style="color:hsl(47,80%,50%)">1. 📖 Overview</span>
 
-**Build prerequisites:** JDK 27 and Maven 3.9+. The parent POM `com.org.llm:super-pom` and the
-`learning-bom` it imports are not on Maven Central, so install both once from their own repositories:
+A practice project for Java coding problems: Streams API exercises, classic interview and
+competitive-programming problems (Blind 75 style), concurrency, and design patterns. All code lives
+under the **test** source root (`src/test/java`) and runs as JUnit tests, or as runnable `main()`
+snippets.
+
+This project used to be the `java-code/` module of the `learning` notes repository, and it moved here
+with its git history. The notes link to these examples instead of copying code.
+
+| Concern | Choice                                                                                              |
+|---------|-----------------------------------------------------------------------------------------------------|
+| Java    | 27, inherited from the `super-pom` 1.2.0 parent's `java.version`, so `maven.compiler.release` is 27 |
+| Tests   | JUnit 6, AssertJ and Mockito, from `spring-boot-starter-test` (Spring Boot 4.1.1)                   |
+| Helpers | Lombok 1.18.48 (provided); `commons-lang3` and `commons-collections4` in tests                      |
+| Reports | Allure 2 and a test knowledge graph: see [Test reports](#test-reports)                              |
+
+<a id="build-and-run"></a>
+## <span style="color:hsl(185,80%,58%)">2. 🚀 Build and run</span>
+
+<a id="prerequisites"></a>
+### <span style="color:hsl(322,80%,58%)">2.1 Prerequisites</span>
+
+JDK 27 and Maven 3.9+. The parent POM `com.org.llm:super-pom` and the `learning-bom` it imports are not on Maven Central, so install both once from their own repositories:
 
 ```bash
 git clone https://github.com/himnay/learning-bom && (cd learning-bom && mvn -N install)
 git clone https://github.com/himnay/super-pom && (cd super-pom && mvn -N install)
 ```
 
-## <span style="color:hsl(30,80%,58%)">Test reports</span>
+<a id="running-the-tests"></a>
+### <span style="color:hsl(100,80%,58%)">2.2 Running the tests</span>
+
+```bash
+mvn test                                       # every exercise, from the repo root
+mvn test -Dtest=CompetitiveProblems            # one class
+mvn test -Dtest='CompetitiveProblems#twoSum'   # one test method
+```
+
+The exercises are named after the problem they solve (`Problem*`, `CompetitiveProblems`), not
+`*Test`, so the pom adds those names to Surefire's includes. Without that, Surefire's default
+patterns would skip them. From the IDE, they run like any other JUnit test.
+
+<a id="continuous-integration"></a>
+### <span style="color:hsl(237,80%,58%)">2.3 Continuous integration</span>
+
+[GitHub Actions](.github/workflows/ci.yml) runs on every push and pull request to `main`:
+
+1. It checks out `learning-bom` and `super-pom` and installs them, since they are not on Maven
+   Central.
+2. It runs `mvn verify` on Temurin 27.
+3. It builds the Allure report and uploads it, with the knowledge graph, as the run's `test-reports`
+   artifact. This step runs even when a test fails.
+
+<a id="test-reports"></a>
+## <span style="color:hsl(15,80%,58%)">3. 📊 Test reports</span>
 
 Every test run feeds two reports. Each is a single self-contained HTML file that opens straight from
 the file system, and CI uploads both as the `test-reports` artifact of every run.
@@ -28,7 +88,8 @@ the file system, and CI uploads both as the `test-reports` artifact of every run
 | Test knowledge graph | `mvn test`, or any test run from the IDE | `target/test-graph/index.html`               |
 | Allure report        | `mvn test`, then `mvn allure:report`     | `target/site/allure-maven-plugin/index.html` |
 
-### <span style="color:hsl(200,80%,58%)">Test knowledge graph</span>
+<a id="test-knowledge-graph"></a>
+### <span style="color:hsl(152,80%,58%)">3.1 Test knowledge graph</span>
 
 A graph of packages → classes → tests, plus the classes each test class uses (the DTOs). A test's
 colour is its last result: passed, failed, skipped or not run. Clicking a node opens a panel:
@@ -49,7 +110,8 @@ the same way the Allure adapter hooks in, so no test needs extra code. A test wi
 is described by the comment above it, or else by its method name. `-Dtest.graph.enabled=false` turns
 the page off.
 
-### <span style="color:hsl(330,80%,58%)">Allure report</span>
+<a id="allure-report"></a>
+### <span style="color:hsl(290,80%,58%)">3.2 Allure report</span>
 
 The report is [Allure 2](https://github.com/allure-framework/allure2). The `allure-jupiter` adapter
 (allure-java 3.0.0) records every test into `target/allure-results`, and the `allure-maven` plugin
@@ -64,7 +126,8 @@ mvn allure:serve    # builds the report into a temporary folder and opens it in 
 Each test's `@DisplayName` becomes its name in the report. On first use the plugin downloads the Allure
 2 command line into `.allure/`, which git ignores.
 
-## <span style="color:hsl(270,80%,58%)">Layout</span>
+<a id="project-layout"></a>
+## <span style="color:hsl(67,80%,50%)">4. 🗂️ Project layout</span>
 
 ```
 src/test/java/
@@ -73,10 +136,18 @@ src/test/java/
     ├── core/stream/                       # Java Streams API practice
     │   └── thread/singleton/              # singleton design-pattern variants
     ├── dto/                               # shared records/enums used by exercises
-    └── problems/                          # interview & competitive problems
+    ├── problems/                          # interview & competitive problems
+    └── report/                            # test knowledge graph (a JUnit Platform listener)
+src/test/resources/
+├── META-INF/services/                     # registers the knowledge graph listener
+├── allure.properties                      # where Allure writes its results
+└── test-graph/template.html               # the knowledge graph page
 ```
 
-## <span style="color:hsl(47,80%,50%)">DTOs — [`com/org/learning/dto`](src/test/java/com/org/learning/dto)</span>
+<a id="dtos"></a>
+## <span style="color:hsl(205,80%,58%)">5. 🧱 DTOs</span>
+
+**Package:** [`com/org/learning/dto`](src/test/java/com/org/learning/dto)
 
 | Type                                                           | Description                                                                                           |
 |----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
@@ -84,9 +155,15 @@ src/test/java/
 | [`Student`](src/test/java/com/org/learning/dto/Student.java)   | Simple record of `name` + `City`                                                                      |
 | [`City`](src/test/java/com/org/learning/dto/City.java)         | Enum: DUBLIN, GALWAY, LIMERICK, CORK                                                                  |
 
-## <span style="color:hsl(185,80%,58%)">Streams API — [`com/org/learning/core/stream`](src/test/java/com/org/learning/core/stream)</span>
+<a id="streams-api"></a>
+## <span style="color:hsl(342,80%,58%)">6. 🌊 Streams API</span>
 
-### <span style="color:hsl(322,80%,58%)">[`ProblemStreamInt`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java) — numeric stream exercises</span>
+**Package:** [`com/org/learning/core/stream`](src/test/java/com/org/learning/core/stream)
+
+<a id="problem-stream-int"></a>
+### <span style="color:hsl(120,80%,58%)">6.1 ProblemStreamInt — numeric stream exercises</span>
+
+**Class:** [`ProblemStreamInt`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java)
 
 | Exercise                                   | Test                                                                                                    |
 |--------------------------------------------|---------------------------------------------------------------------------------------------------------|
@@ -103,7 +180,10 @@ src/test/java/
 | Count even vs odd                          | [`countEvenOddNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L177)          |
 | Flatten nested lists, distinct, descending | [`flattenAndDistinctDescending`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L191) |
 
-### <span style="color:hsl(100,80%,58%)">[`ProblemStreamString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java) — string & collection stream exercises</span>
+<a id="problem-stream-string"></a>
+### <span style="color:hsl(257,80%,58%)">6.2 ProblemStreamString — string and collection stream exercises</span>
+
+**Class:** [`ProblemStreamString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java)
 
 | Exercise                                        | Test                                                                                                                    |
 |-------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
@@ -132,7 +212,8 @@ src/test/java/
 | Count and sort by frequency                     | [`countSortFrequency`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L327)                        |
 | Group, separate, and sort                       | [`groupSeparateAndSort`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L346)                      |
 
-### <span style="color:hsl(237,80%,58%)">Other stream / concurrency programs</span>
+<a id="other-stream-programs"></a>
+### <span style="color:hsl(35,80%,58%)">6.3 Other stream and concurrency programs</span>
 
 | Class                                                                                                      | Description                                                                                                                                                                      |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -140,20 +221,30 @@ src/test/java/
 | [`ProblemStreamFindNonRepeat`](src/test/java/com/org/learning/core/stream/ProblemStreamFindNonRepeat.java) | First non-repeating character using `groupingBy` into a `LinkedHashMap` to preserve insertion order                                                                              |
 | [`ProgramDeadLock`](src/test/java/com/org/learning/core/stream/ProgramDeadLock.java)                       | Deadlock-avoidance demo: two threads acquiring `ReentrantLock`s in opposite order, defused via `tryLock` with timeout                                                            |
 
-## <span style="color:hsl(15,80%,58%)">Interview problems — [`com/org/learning/problems`](src/test/java/com/org/learning/problems)</span>
+<a id="interview-problems"></a>
+## <span style="color:hsl(172,80%,58%)">7. 🧩 Interview problems</span>
 
-### <span style="color:hsl(152,80%,58%)">Standalone problems</span>
+**Package:** [`com/org/learning/problems`](src/test/java/com/org/learning/problems)
+
+<a id="standalone-problems"></a>
+### <span style="color:hsl(310,80%,58%)">7.1 Standalone problems</span>
 
 | Problem                                             | Test                                                                                                                |
 |-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
 | String rotation check (is `s2` a rotation of `s1`?) | [`ProblemRotationCheck.stringRotationCheck`](src/test/java/com/org/learning/problems/ProblemRotationCheck.java#L11) |
 | Best time to buy/sell stock                         | [`ProblemBuySellStock.buySellStock`](src/test/java/com/org/learning/problems/ProblemBuySellStock.java#L15)          |
 
-### <span style="color:hsl(290,80%,58%)">[`CompetitiveProblems`](src/test/java/com/org/learning/problems/CompetitiveProblems.java) — Blind-75-style collection</span>
+<a id="competitive-problems"></a>
+### <span style="color:hsl(87,80%,58%)">7.2 CompetitiveProblems — Blind-75-style collection</span>
+
+**Class:** [`CompetitiveProblems`](src/test/java/com/org/learning/problems/CompetitiveProblems.java)
 
 One JUnit test per problem, organized below by category. Helper data structures defined at the top of the class: [`ListNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L22), [`TreeNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L32), [`GraphNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L41), [`Trie`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L51), [`WordDictionary`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L79), [`MedianFinder`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L104), [`Codec`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L121).
 
-#### <span style="color:hsl(67,80%,50%)">Array</span>
+**Categories:** [Array](#cp-array) · [Binary / bit manipulation](#cp-binary) · [Dynamic programming](#cp-dynamic-programming) · [Graph](#cp-graph) · [Interval](#cp-interval) · [Linked list](#cp-linked-list) · [Matrix](#cp-matrix) · [String](#cp-string) · [Tree](#cp-tree) · [Heap](#cp-heap) · [Misc](#cp-misc)
+
+<a id="cp-array"></a>
+#### <span style="color:hsl(225,80%,58%)">Array</span>
 
 | Problem                              | Test                                                                                                       |
 |--------------------------------------|------------------------------------------------------------------------------------------------------------|
@@ -168,7 +259,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | 3Sum                                 | [`threeSum`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L284)                        |
 | Container With Most Water            | [`containerWithMostWater`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L307)          |
 
-#### <span style="color:hsl(205,80%,58%)">Binary / bit manipulation</span>
+<a id="cp-binary"></a>
+#### <span style="color:hsl(2,80%,58%)">Binary / bit manipulation</span>
 
 | Problem                      | Test                                                                                        |
 |------------------------------|---------------------------------------------------------------------------------------------|
@@ -178,7 +270,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Missing Number               | [`missingNumber`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L356)    |
 | Reverse Bits                 | [`reverseBits`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L365)      |
 
-#### <span style="color:hsl(342,80%,58%)">Dynamic programming</span>
+<a id="cp-dynamic-programming"></a>
+#### <span style="color:hsl(140,80%,58%)">Dynamic programming</span>
 
 | Problem                        | Test                                                                                                    |
 |--------------------------------|---------------------------------------------------------------------------------------------------------|
@@ -194,7 +287,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Unique Paths                   | [`uniquePaths`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L525)                  |
 | Jump Game                      | [`jumpGame`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L540)                     |
 
-#### <span style="color:hsl(120,80%,58%)">Graph</span>
+<a id="cp-graph"></a>
+#### <span style="color:hsl(277,80%,58%)">Graph</span>
 
 | Problem                        | Test                                                                                                   |
 |--------------------------------|--------------------------------------------------------------------------------------------------------|
@@ -207,7 +301,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Graph Valid Tree               | [`graphValidTree`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L702)              |
 | Number of Connected Components | [`numberOfConnectedComponents`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L732) |
 
-#### <span style="color:hsl(257,80%,58%)">Interval</span>
+<a id="cp-interval"></a>
+#### <span style="color:hsl(55,80%,50%)">Interval</span>
 
 | Problem                   | Test                                                                                               |
 |---------------------------|----------------------------------------------------------------------------------------------------|
@@ -217,7 +312,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Meeting Rooms             | [`meetingRooms`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L808)            |
 | Meeting Rooms II          | [`meetingRoomsII`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L818)          |
 
-#### <span style="color:hsl(35,80%,58%)">Linked list</span>
+<a id="cp-linked-list"></a>
+#### <span style="color:hsl(192,80%,58%)">Linked list</span>
 
 | Problem                          | Test                                                                                                  |
 |----------------------------------|-------------------------------------------------------------------------------------------------------|
@@ -228,7 +324,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Remove Nth Node From End of List | [`removeNthNodeFromEndOfList`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L903) |
 | Reorder List                     | [`reorderList`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L922)                |
 
-#### <span style="color:hsl(172,80%,58%)">Matrix</span>
+<a id="cp-matrix"></a>
+#### <span style="color:hsl(330,80%,58%)">Matrix</span>
 
 | Problem           | Test                                                                                       |
 |-------------------|--------------------------------------------------------------------------------------------|
@@ -237,7 +334,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Rotate Image      | [`rotateImage`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1001)    |
 | Word Search       | [`wordSearch`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1023)     |
 
-#### <span style="color:hsl(310,80%,58%)">String</span>
+<a id="cp-string"></a>
+#### <span style="color:hsl(107,80%,58%)">String</span>
 
 | Problem                                        | Test                                                                                                                   |
 |------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
@@ -252,7 +350,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Palindromic Substrings                         | [`palindromicSubstrings`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1184)                      |
 | Encode and Decode Strings                      | [`encodeAndDecodeStrings`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1206)                     |
 
-#### <span style="color:hsl(87,80%,58%)">Tree</span>
+<a id="cp-tree"></a>
+#### <span style="color:hsl(245,80%,58%)">Tree</span>
 
 | Problem                                         | Test                                                                                                                           |
 |-------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
@@ -271,7 +370,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Add and Search Word                             | [`addAndSearchWord`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1484)                                   |
 | Word Search II                                  | [`wordSearchII`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1497)                                       |
 
-#### <span style="color:hsl(225,80%,58%)">Heap</span>
+<a id="cp-heap"></a>
+#### <span style="color:hsl(22,80%,58%)">Heap</span>
 
 | Problem                      | Test                                                                                                   |
 |------------------------------|--------------------------------------------------------------------------------------------------------|
@@ -280,7 +380,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Find Median from Data Stream | [`findMedianFromDataStream`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1562)   |
 | Find Kth Largest Element     | [`findKthLargestElement`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1573)      |
 
-#### <span style="color:hsl(2,80%,58%)">Misc</span>
+<a id="cp-misc"></a>
+#### <span style="color:hsl(160,80%,58%)">Misc</span>
 
 | Problem                                | Test                                                                                       |
 |----------------------------------------|--------------------------------------------------------------------------------------------|
@@ -289,14 +390,18 @@ One JUnit test per problem, organized below by category. Helper data structures 
 | Two Sum (variant)                      | [`twoSumProblem`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1648)  |
 | Rotate Array                           | [`rotateArray`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1682)    |
 
-## <span style="color:hsl(140,80%,58%)">Design patterns — [`com/org/learning/core/stream/thread/singleton`](src/test/java/com/org/learning/core/stream/thread/singleton)</span>
+<a id="design-patterns"></a>
+## <span style="color:hsl(297,80%,58%)">8. 🏗️ Design patterns</span>
+
+**Package:** [`com/org/learning/core/stream/thread/singleton`](src/test/java/com/org/learning/core/stream/thread/singleton)
 
 | Class                                                                                                           | Description                                                                                                                       |
 |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [`ProblemSingleton`](src/test/java/com/org/learning/core/stream/thread/singleton/ProblemSingleton.java)         | Classic singleton hardened against reflection, serialization, and cloning attacks (`Serializable` + `Cloneable` with protections) |
 | [`ProblemSingletonEnum`](src/test/java/com/org/learning/core/stream/thread/singleton/ProblemSingletonEnum.java) | Enum-based singleton (Effective Java approach) with a demo `Main`                                                                 |
 
-## <span style="color:hsl(277,80%,58%)">Scratch</span>
+<a id="scratch-pad"></a>
+## <span style="color:hsl(75,80%,50%)">9. 📝 Scratch pad</span>
 
 [`ScrapPad`](src/test/java/ScrapPad.java) (default package) — quick experiments: the BOFA employee exercise plus small helpers (average, case change, even/odd sum, de-dup, starts-with filtering).
 

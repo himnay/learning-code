@@ -379,7 +379,7 @@ final class GraphPage {
             }
             var json = new StringBuilder();
             json(data, json);
-            return new String(template.readAllBytes(), StandardCharsets.UTF_8).replace("/*DATA*/", json);
+            return new String(template.readAllBytes(), StandardCharsets.UTF_8).replace("/*DATA*/null", json);
         }
     }
 

@@ -100,7 +100,16 @@ body{background:var(--page);color:var(--ink);font:14px/1.55 system-ui,-apple-sys
   </div>
 </div>
 <script>
-const DATA = /*DATA*/;
+const DATA = /*DATA*/null;
+// Opened as the raw template rather than the page a test run writes: point at the real page.
+if(!DATA){
+  document.getElementById('app').innerHTML=
+    '<div style="margin:auto;max-width:600px;padding:40px;line-height:1.7;color:#c3c2b7">'+
+    '<h2 style="color:#fff;margin-bottom:12px">This is only the page template</h2>'+
+    '<p>Every test run (<code>mvn test</code>, or a run from the IDE) fills it with the run\'s tests and '+
+    'results and writes the real page to <code>target/test-graph/index.html</code>. Open that file.</p></div>';
+  throw new Error('test-graph template opened without data: open target/test-graph/index.html');
+}
 const N = DATA.nodes, E = DATA.edges, G = DATA.groups;
 const NODE_IDS = new Set(N.map(n=>n.id));
 const nbr = N.map(()=>[]);

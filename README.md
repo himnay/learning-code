@@ -110,6 +110,10 @@ the same way the Allure adapter hooks in, so no test needs extra code. A test wi
 is described by the comment above it, or else by its method name. `-Dtest.graph.enabled=false` turns
 the page off.
 
+Open `target/test-graph/index.html`, for example from the `[test-graph] file:///…` line that
+`mvn test` prints. `src/test/resources/test-graph/template.html` is only the empty template the
+listener fills in.
+
 <a id="allure-report"></a>
 ### <span style="color:hsl(290,80%,58%)">3.2 Allure report</span>
 

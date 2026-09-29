@@ -187,8 +187,10 @@ const groupOn = G.map(()=>true);
 function nodeVisible(n){ return groupOn[n.g] && (!query || n.t.toLowerCase().includes(query) || n.id.toLowerCase().includes(query)); }
 function refreshVisibility(){ N.forEach(n=>{n.hidden=!nodeVisible(n);}); updateCount(); }
 function updateCount(){
-  document.getElementById('count').textContent =
-    DATA.summary + ' · ' + N.filter(n=>!n.hidden).length + ' of ' + N.length + ' nodes shown';
+  // results are circle colours, not chips: this line is their key
+  document.getElementById('count').innerHTML =
+    DATA.status.filter(s=>s.count).map(s=>'<span style="color:'+s.color+'">●</span> '+s.count+' '+esc(s.label)).join(' · ')
+    + ' · ' + N.filter(n=>!n.hidden).length + ' of ' + N.length + ' nodes shown';
 }
 function draw(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -213,7 +215,7 @@ function draw(){
     const r = n.r*Math.min(scale,1.4);
     const dim = focus!=null && !selSet.has(i);
     ctx.globalAlpha = dim? .28 : 1;
-    ctx.fillStyle = G[n.g].color;
+    ctx.fillStyle = n.c || G[n.g].color;   // a test's circle shows its result
     ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
     // 2px surface ring separates overlapping marks
     ctx.lineWidth=2; ctx.strokeStyle='#1a1a19'; ctx.stroke();
@@ -291,6 +293,7 @@ document.getElementById('zfit').onclick=()=>{fit();draw();};
 const legend=document.getElementById('legend');
 const chips=[];
 G.forEach((g,gi)=>{
+  if(g.legend===false){ chips.push(null); return; }   // the project node's group has no chip
   const c=document.createElement('div'); c.className='chip';
   c.innerHTML='<span class="dot" style="background:'+g.color+'"></span>'+g.label;
   c.onclick=()=>{ groupOn[gi]=!groupOn[gi]; c.classList.toggle('off',!groupOn[gi]);
@@ -300,12 +303,12 @@ G.forEach((g,gi)=>{
 // None/All chip — one click clears every group, next click brings them all back
 const toggleAll=document.createElement('div'); toggleAll.className='chip';
 function updateToggleAll(){
-  const anyOn=groupOn.some(v=>v);
+  const anyOn=groupOn.some((v,i)=>chips[i]&&v);
   toggleAll.innerHTML='<span class="dot" style="background:#ff3b30"></span>'+(anyOn?'Clear':'All');
 }
 toggleAll.onclick=()=>{
-  const anyOn=groupOn.some(v=>v);
-  for(let i=0;i<groupOn.length;i++){ groupOn[i]=!anyOn; chips[i].classList.toggle('off',anyOn); }
+  const anyOn=groupOn.some((v,i)=>chips[i]&&v);
+  for(let i=0;i<groupOn.length;i++){ if(!chips[i]) continue; groupOn[i]=!anyOn; chips[i].classList.toggle('off',anyOn); }
   updateToggleAll(); refreshVisibility(); alpha=Math.max(alpha,.3); running=true;
 };
 updateToggleAll();

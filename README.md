@@ -91,8 +91,9 @@ the file system, and CI uploads both as the `test-reports` artifact of every run
 <a id="test-knowledge-graph"></a>
 ### <span style="color:hsl(152,80%,58%)">3.1 Test knowledge graph</span>
 
-A graph of packages → classes → tests, plus the classes each test class uses (the DTOs). A test's
-colour is its last result: passed, failed, skipped or not run. Clicking a node opens a panel:
+A graph of packages → classes → tests, plus the classes each test class uses (the DTOs). Each package
+has its own colour, which its classes share. A test's circle shows its last result instead: green
+passed, red failed, amber skipped, grey not run. Clicking a node opens a panel:
 
 - ***test***: its description (the `@DisplayName`), its result with the duration (and the stack trace
   of a failure), and its source code;
@@ -100,8 +101,9 @@ colour is its last result: passed, failed, skipped or not run. Clicking a node o
   and its source;
 - ***package*** and ***project***: counts, with the failed tests listed first.
 
-Search matches descriptions, method names and class names, and the legend chips filter by kind or
-result. Every test and class links to its source on GitHub and in VS Code.
+The legend chips are the packages: clicking one shows or hides that package with its classes and
+tests. Search matches descriptions, method names and class names. Every test and class links to its
+source on GitHub and in VS Code.
 
 [`KnowledgeGraphListener`](src/test/java/com/org/learning/report/KnowledgeGraphListener.java) writes the
 page. It is a JUnit Platform `TestExecutionListener`, registered in

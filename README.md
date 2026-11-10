@@ -36,7 +36,7 @@ with its git history. The notes link to these examples instead of copying code.
 | Concern | Choice                                                                                              |
 |---------|-----------------------------------------------------------------------------------------------------|
 | Java    | 27, inherited from the `super-pom` 1.2.0 parent's `java.version`, so `maven.compiler.release` is 27 |
-| Tests   | JUnit 6, AssertJ and Mockito, from `spring-boot-starter-test` (Spring Boot 4.1.1)                   |
+| Tests   | JUnit 6, AssertJ and Mockito, from `spring-boot-starter-test` (Spring Boot 4.1.2)                   |
 | Helpers | Lombok 1.18.48 (provided); `commons-lang3` and `commons-collections4` in tests                      |
 | Reports | Allure 2 and a test knowledge graph: see [Test reports](#test-reports)                              |
 

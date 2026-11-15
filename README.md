@@ -35,7 +35,7 @@ with its git history. The notes link to these examples instead of copying code.
 
 | Concern | Choice                                                                                              |
 |---------|-----------------------------------------------------------------------------------------------------|
-| Java    | 27, inherited from the `super-pom` 1.2.0 parent's `java.version`, so `maven.compiler.release` is 27 |
+| Java    | 27, inherited from the `super-pom` 1.2.2 parent's `java.version`, so `maven.compiler.release` is 27 |
 | Tests   | JUnit 6, AssertJ and Mockito, from `spring-boot-starter-test` (Spring Boot 4.1.2)                   |
 | Helpers | Lombok 1.18.48 (provided); `commons-lang3` and `commons-collections4` in tests                      |
 | Reports | Allure 2 and a test knowledge graph: see [Test reports](#test-reports)                              |
@@ -64,7 +64,11 @@ mvn test -Dtest='CompetitiveProblems#twoSum'   # one test method
 
 The exercises are named after the problem they solve (`Problem*`, `CompetitiveProblems`), not
 `*Test`, so the pom adds those names to Surefire's includes. Without that, Surefire's default
-patterns would skip them. From the IDE, they run like any other JUnit test.
+patterns would skip them. From the IDE, they run like any other JUnit test. Every exercise asserts
+its result, so a broken solution fails the build. `mvn verify` is what CI runs.
+
+The classes with a `main()` instead of tests ([6.3](#other-stream-programs), [9](#scratch-pad)) are
+compiled by the build but only run from the IDE.
 
 <a id="continuous-integration"></a>
 ### <span style="color:hsl(237,80%,58%)">2.3 Continuous integration</span>
@@ -161,6 +165,8 @@ src/test/resources/
 | [`Student`](src/test/java/com/org/learning/dto/Student.java)   | Simple record of `name` + `City`                                                                      |
 | [`City`](src/test/java/com/org/learning/dto/City.java)         | Enum: DUBLIN, GALWAY, LIMERICK, CORK                                                                  |
 
+[`EmployeeTest`](src/test/java/com/org/learning/dto/EmployeeTest.java) covers the record's validation and its convenience constructors.
+
 <a id="streams-api"></a>
 ## <span style="color:hsl(342,80%,58%)">6. 🌊 Streams API</span>
 
@@ -173,18 +179,18 @@ src/test/resources/
 
 | Exercise                                   | Test                                                                                                    |
 |--------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| Filter even numbers                        | [`evenNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L18)                    |
-| Min / max of a list                        | [`minMaxNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L29)                  |
-| Min / max via `reduce`                     | [`minMaxNumberUsingReduce`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L45)       |
-| Sum of numbers                             | [`sumNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L62)                     |
-| Find duplicates                            | [`findDuplicateNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L90)          |
-| Find missing number in a list              | [`findMissingNoInAList`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L102)         |
-| Generate even / odd numbers                | [`generateEvenOddNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L120)       |
-| Second smallest / largest                  | [`secondSmallestLargest`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L137)        |
-| Reverse an int array                       | [`reverseArrayOfInt`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L155)            |
-| Longest / shortest word                    | [`longAndShortWord`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L167)             |
-| Count even vs odd                          | [`countEvenOddNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L177)          |
-| Flatten nested lists, distinct, descending | [`flattenAndDistinctDescending`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L191) |
+| Filter even numbers                        | [`evenNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L20)                    |
+| Min / max of a list                        | [`minMaxNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L32)                  |
+| Min / max via `reduce`                     | [`minMaxNumberUsingReduce`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L50)       |
+| Sum of numbers                             | [`sumNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L69)                     |
+| Find duplicates                            | [`findDuplicateNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L101)          |
+| Find missing number in a list              | [`findMissingNoInAList`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L114)         |
+| Generate even / odd numbers                | [`generateEvenOddNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L133)       |
+| Second smallest / largest                  | [`secondSmallestLargest`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L152)        |
+| Reverse an int array                       | [`reverseArrayOfInt`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L172)            |
+| Longest / shortest word                    | [`longAndShortWord`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L185)             |
+| Count even vs odd                          | [`countEvenOddNumbers`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L201)          |
+| Flatten nested lists, top 3 distinct, desc | [`flattenAndDistinctDescending`](src/test/java/com/org/learning/core/stream/ProblemStreamInt.java#L217) |
 
 <a id="problem-stream-string"></a>
 ### <span style="color:hsl(257,80%,58%)">6.2 ProblemStreamString — string and collection stream exercises</span>
@@ -193,30 +199,30 @@ src/test/resources/
 
 | Exercise                                        | Test                                                                                                                    |
 |-------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| Character occurrence count                      | [`occurrenceNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L24)                           |
-| Filter out null strings                         | [`filterNonNullString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L33)                        |
-| Map to upper case                               | [`upperCase`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L43)                                  |
-| Remove duplicates                               | [`removeDup`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L53)                                  |
-| Merge lists and de-duplicate                    | [`mergeListAndDeDup`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L63)                          |
-| Longest word in a sentence                      | [`longestWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L81)                                |
-| Reverse then sort strings                       | [`reverseAndSortString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L92)                       |
-| Merge two lists                                 | [`mergeList`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L104)                                 |
-| Move all 1s to the end                          | [`moveAllOneToEnd`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L118)                           |
-| Reverse a string                                | [`stringReverse`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L127)                             |
-| Sort strings (asc / desc)                       | [`sortStrings`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L137)                               |
-| Word occurrence count                           | [`occurrenceOfWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L160)                          |
-| Common words between lists                      | [`commonWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L169)                                |
-| Extract digits from alphanumeric string and sum | [`filterNumbersFromAlphaNumericStringAndSum`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L182) |
-| Character with minimum occurrence               | [`countMinOccurrence`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L194)                        |
-| Find longest string                             | [`findLongestString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L208)                         |
-| Length of last word in a sentence               | [`lengthOfLastWordInASentence`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L223)               |
-| Split a string                                  | [`stringSplit`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L234)                               |
-| Unique characters                               | [`uniqueCharacters`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L243)                          |
-| Second highest salary                           | [`secondHighestSalary`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L269)                       |
-| Partition into odd / even                       | [`partitionOddEven`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L288)                          |
-| Group employees by location                     | [`findEmployeeBasedOnLocation`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L297)               |
-| Count and sort by frequency                     | [`countSortFrequency`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L327)                        |
-| Group, separate, and sort                       | [`groupSeparateAndSort`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L346)                      |
+| Character occurrence count                      | [`occurrenceNumber`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L26)                           |
+| Filter out null strings                         | [`filterNonNullString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L36)                        |
+| Map to upper case                               | [`upperCase`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L47)                                  |
+| Remove duplicates                               | [`removeDup`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L58)                                  |
+| Merge lists and de-duplicate                    | [`mergeListAndDeDup`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L69)                          |
+| Longest word in a sentence                      | [`longestWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L90)                                |
+| Reverse then sort strings                       | [`reverseAndSortString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L102)                       |
+| Merge two lists                                 | [`mergeList`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L115)                                 |
+| Move all 1s to the end                          | [`moveAllOneToEnd`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L130)                           |
+| Reverse a string                                | [`stringReverse`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L140)                             |
+| Sort strings (asc / desc)                       | [`sortStrings`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L151)                               |
+| Word occurrence count                           | [`occurrenceOfWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L175)                          |
+| Common words between lists                      | [`commonWord`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L185)                                |
+| Extract digits from alphanumeric string and sum | [`filterNumbersFromAlphaNumericStringAndSum`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L199) |
+| Character with minimum occurrence               | [`countMinOccurrence`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L212)                        |
+| Find longest string                             | [`findLongestString`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L227)                         |
+| Length of last word in a sentence               | [`lengthOfLastWordInASentence`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L244)               |
+| Split a string                                  | [`stringSplit`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L256)                               |
+| Unique characters                               | [`uniqueCharacters`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L266)                          |
+| Second highest salary                           | [`secondHighestSalary`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L294)                       |
+| Partition into odd / even                       | [`partitionOddEven`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L314)                          |
+| Group employees by location                     | [`findEmployeeBasedOnLocation`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L325)               |
+| Count and sort by frequency                     | [`countSortFrequency`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L356)                        |
+| Group, separate, and sort                       | [`groupSeparateAndSort`](src/test/java/com/org/learning/core/stream/ProblemStreamString.java#L376)                      |
 
 <a id="other-stream-programs"></a>
 ### <span style="color:hsl(35,80%,58%)">6.3 Other stream and concurrency programs</span>
@@ -237,15 +243,15 @@ src/test/resources/
 
 | Problem                                             | Test                                                                                                                |
 |-----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| String rotation check (is `s2` a rotation of `s1`?) | [`ProblemRotationCheck.stringRotationCheck`](src/test/java/com/org/learning/problems/ProblemRotationCheck.java#L11) |
-| Best time to buy/sell stock                         | [`ProblemBuySellStock.buySellStock`](src/test/java/com/org/learning/problems/ProblemBuySellStock.java#L15)          |
+| String rotation check (is `s2` a rotation of `s1`?) | [`ProblemRotationCheck.stringRotationCheck`](src/test/java/com/org/learning/problems/ProblemRotationCheck.java#L14) |
+| Best time to buy/sell stock                         | [`ProblemBuySellStock.buySellStock`](src/test/java/com/org/learning/problems/ProblemBuySellStock.java#L17)          |
 
 <a id="competitive-problems"></a>
 ### <span style="color:hsl(87,80%,58%)">7.2 CompetitiveProblems — Blind-75-style collection</span>
 
 **Class:** [`CompetitiveProblems`](src/test/java/com/org/learning/problems/CompetitiveProblems.java)
 
-One JUnit test per problem, organized below by category. Helper data structures defined at the top of the class: [`ListNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L22), [`TreeNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L32), [`GraphNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L41), [`Trie`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L51), [`WordDictionary`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L79), [`MedianFinder`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L104), [`Codec`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L121).
+One JUnit test per problem, organized below by category. Helper data structures defined at the top of the class: [`ListNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L18), [`TreeNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L27), [`GraphNode`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L37), [`Trie`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L51), [`WordDictionary`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L79), [`MedianFinder`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L104), [`Codec`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L121).
 
 **Categories:** [Array](#cp-array) · [Binary / bit manipulation](#cp-binary) · [Dynamic programming](#cp-dynamic-programming) · [Graph](#cp-graph) · [Interval](#cp-interval) · [Linked list](#cp-linked-list) · [Matrix](#cp-matrix) · [String](#cp-string) · [Tree](#cp-tree) · [Heap](#cp-heap) · [Misc](#cp-misc)
 
@@ -391,10 +397,10 @@ One JUnit test per problem, organized below by category. Helper data structures 
 
 | Problem                                | Test                                                                                       |
 |----------------------------------------|--------------------------------------------------------------------------------------------|
-| Swap Two Numbers (multiple approaches) | [`swapTwoNumbers`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1584) |
-| String Anagrams                        | [`stringAnagrams`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1626) |
-| Two Sum (variant)                      | [`twoSumProblem`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1648)  |
-| Rotate Array                           | [`rotateArray`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1682)    |
+| Swap Two Numbers (multiple approaches) | [`swapTwoNumbers`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1590) |
+| String Anagrams                        | [`stringAnagrams`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1642) |
+| Two Sum (variant)                      | [`twoSumProblem`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1665)  |
+| Rotate Array                           | [`rotateArray`](src/test/java/com/org/learning/problems/CompetitiveProblems.java#L1707)    |
 
 <a id="design-patterns"></a>
 ## <span style="color:hsl(297,80%,58%)">8. 🏗️ Design patterns</span>
@@ -405,6 +411,8 @@ One JUnit test per problem, organized below by category. Helper data structures 
 |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [`ProblemSingleton`](src/test/java/com/org/learning/core/stream/thread/singleton/ProblemSingleton.java)         | Classic singleton hardened against reflection, serialization, and cloning attacks (`Serializable` + `Cloneable` with protections) |
 | [`ProblemSingletonEnum`](src/test/java/com/org/learning/core/stream/thread/singleton/ProblemSingletonEnum.java) | Enum-based singleton (Effective Java approach) with a demo `Main`                                                                 |
+
+[`ProblemSingletonTest`](src/test/java/com/org/learning/core/stream/thread/singleton/ProblemSingletonTest.java) checks both: one instance, and reflection, deserialization and cloning cannot make a second.
 
 <a id="scratch-pad"></a>
 ## <span style="color:hsl(75,80%,50%)">9. 📝 Scratch pad</span>

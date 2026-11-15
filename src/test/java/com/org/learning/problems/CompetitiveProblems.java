@@ -1576,7 +1576,13 @@ public class CompetitiveProblems {
         int[] numbers = {3, 2, 1, 5, 6, 4};
         int k = 2;
 
-
+        // min-heap of size k: its head is the kth largest
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        for (int number : numbers) {
+            heap.offer(number);
+            if (heap.size() > k) heap.poll();
+        }
+        assertEquals(5, heap.peek());
     }
 
     @Test
@@ -1588,6 +1594,8 @@ public class CompetitiveProblems {
         a = b;
         b = temp;
         System.out.println("Option 1 : " + a + " " + b);
+        assertEquals(10, a);
+        assertEquals(5, b);
 
         // Option 2
         a = 5;
@@ -1596,6 +1604,8 @@ public class CompetitiveProblems {
         b = a - b; // b = 15 - 10 = 5
         a = a - b; // a = 15 - 5 = 10
         System.out.println("Option 2 : " + a + " " + b);
+        assertEquals(10, a);
+        assertEquals(5, b);
 
         // Option 3
         a = 5;
@@ -1604,6 +1614,8 @@ public class CompetitiveProblems {
         b = a / b; // b = 50 / 10 = 5
         a = a / b; // a = 50 / 5 = 10
         System.out.println("Option 3 : " + a + " " + b);
+        assertEquals(10, a);
+        assertEquals(5, b);
 
         // Option 4
         a = 5;
@@ -1612,12 +1624,16 @@ public class CompetitiveProblems {
         b = a ^ b; // b = 5 (0101)
         a = a ^ b; // a = 10 (1010)
         System.out.println("Option 4 : " + a + " " + b);
+        assertEquals(10, a);
+        assertEquals(5, b);
 
         // Option 5
         a = 5;
         b = 10;
         a = (a + b) - (b = a); // a = 10, b = 5
         System.out.println("Option 5 : " + a + " " + b);
+        assertEquals(10, a);
+        assertEquals(5, b);
 
     }
 
@@ -1639,6 +1655,7 @@ public class CompetitiveProblems {
             System.out.println("first = " + first + ", second = " + second);
             System.out.println("SortedFirstString = " + sortedFristString + ", SortedSecondString = " + sortedSecondString);
             System.out.println("Are both anagrams : " + sortedFristString.equalsIgnoreCase(sortedSecondString));
+            assertTrue(sortedFristString.equalsIgnoreCase(sortedSecondString));
         }
 
     }
@@ -1650,16 +1667,21 @@ public class CompetitiveProblems {
         int target = 9;
 
         // complexity O(n^2)
+        int[] pair = null;
         outerLoop:
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
                 if (arr[i] + arr[j] == target) {
                     System.out.println("Pair found : " + arr[i] + " + " + arr[j] + " = " + target);
+                    pair = new int[]{arr[i], arr[j]};
                     break outerLoop;
                 }
             }
         }
-        System.out.println("No pair found that sums to the target.");
+        if (pair == null) {
+            System.out.println("No pair found that sums to the target.");
+        }
+        assertArrayEquals(new int[]{2, 7}, pair);
 
         // complexity O(n)
         // 2, 7, 11, 8, 15
@@ -1667,23 +1689,35 @@ public class CompetitiveProblems {
         int[] numbers = {2, 7, 11, 8, 15};
         target = 10;
         Map<Integer, Integer> map = new HashMap<>();
+        pair = null;
         for (int i = 0; i < numbers.length; i++) {
             int complement = target - numbers[i];
             if (map.containsKey(complement)) {
                 System.out.println("Pair found : " + complement + " + " + numbers[i] + " = " + target);
+                pair = new int[]{complement, numbers[i]};
                 break;
             }
             map.put(numbers[i], complement);
         }
+        assertArrayEquals(new int[]{2, 8}, pair);
     }
 
     @Test
     @DisplayName("Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.")
     public void rotateArray() {
         int[] numbers = {1, 2, 3, 4, 5, 6, 7};
-        int start = 0, end = 6;
+        int k = 3 % numbers.length;
 
-        // 2 pointer approach. O(n) time complexity and O(1) space complexity
+        // reverse everything, then the first k, then the rest. O(n) time complexity and O(1) space complexity
+        reverse(numbers, 0, numbers.length - 1);
+        reverse(numbers, 0, k - 1);
+        reverse(numbers, k, numbers.length - 1);
+        System.out.println("Rotated array : " + Arrays.toString(numbers));
+        assertArrayEquals(new int[]{5, 6, 7, 1, 2, 3, 4}, numbers);
+    }
+
+    // 2 pointer approach
+    private static void reverse(int[] numbers, int start, int end) {
         while (start < end) {
             int temp = numbers[start];
             numbers[start] = numbers[end];
@@ -1691,6 +1725,5 @@ public class CompetitiveProblems {
             start++;
             end--;
         }
-        System.out.println("Reversed array : " + Arrays.toString(numbers));
     }
 }

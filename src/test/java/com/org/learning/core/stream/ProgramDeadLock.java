@@ -12,18 +12,25 @@ public class ProgramDeadLock {
         Thread thread1 = new Thread(() -> {
             try {
                 if (lock1.tryLock(2, TimeUnit.SECONDS)) {
-                    System.out.println("Thread 1: Holding lock1...");
                     try {
+                        System.out.println("Thread 1: Holding lock1...");
                         Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-                    System.out.println("Thread 1: Waiting for lock2...");
-                    if (lock2.tryLock(2, TimeUnit.SECONDS)) {
-                        System.out.println("Thread 1: Holding lock1 and lock2...");
+                        System.out.println("Thread 1: Waiting for lock2...");
+                        if (lock2.tryLock(2, TimeUnit.SECONDS)) {
+                            try {
+                                System.out.println("Thread 1: Holding lock1 and lock2...");
+                            } finally {
+                                lock2.unlock();
+                            }
+                        } else {
+                            System.out.println("Thread 1: Gave up on lock2, backing off...");
+                        }
+                    } finally {
+                        lock1.unlock(); // always release, or the other thread can never proceed
                     }
                 }
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
             }
         });
 
@@ -31,18 +38,25 @@ public class ProgramDeadLock {
         Thread thread2 = new Thread(() -> {
             try {
                 if (lock2.tryLock(2, TimeUnit.SECONDS)) {
-                    System.out.println("Thread 2: Holding lock2...");
                     try {
+                        System.out.println("Thread 2: Holding lock2...");
                         Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                    }
-                    System.out.println("Thread 2: Waiting for lock1...");
-                    if (lock1.tryLock(2, TimeUnit.SECONDS)) {
-                        System.out.println("Thread 2: Holding lock1 and lock2...");
+                        System.out.println("Thread 2: Waiting for lock1...");
+                        if (lock1.tryLock(2, TimeUnit.SECONDS)) {
+                            try {
+                                System.out.println("Thread 2: Holding lock1 and lock2...");
+                            } finally {
+                                lock1.unlock();
+                            }
+                        } else {
+                            System.out.println("Thread 2: Gave up on lock1, backing off...");
+                        }
+                    } finally {
+                        lock2.unlock(); // always release, or the other thread can never proceed
                     }
                 }
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                Thread.currentThread().interrupt();
             }
         });
 

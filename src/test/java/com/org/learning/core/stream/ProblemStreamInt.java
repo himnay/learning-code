@@ -10,6 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(MockitoExtension.class)
 class ProblemStreamInt {
 
@@ -22,6 +24,7 @@ class ProblemStreamInt {
                 .map(i -> i * 2)
                 .toList();
         System.out.println(evenNumber);
+        assertThat(evenNumber).containsExactly(4, 8, 12, 16, 20);
     }
 
     @Test
@@ -38,6 +41,8 @@ class ProblemStreamInt {
                 .max((i, j) -> i.compareTo(j))
                 .get();
         System.out.println(maxNumber);
+        assertThat(minNumber).isEqualTo(1);
+        assertThat(maxNumber).isEqualTo(10);
     }
 
     @Test
@@ -55,6 +60,8 @@ class ProblemStreamInt {
 
         System.out.println(maxNumber);
         System.out.println(minNumber);
+        assertThat(maxNumber).isEqualTo(3);
+        assertThat(minNumber).isEqualTo(1);
     }
 
     @Test
@@ -83,6 +90,10 @@ class ProblemStreamInt {
                 .boxed()
                 .collect(Collectors.toList());
         System.out.println(atomicInteger.get());
+        assertThat(sum).isEqualTo(15);
+        assertThat(reduce.getAsInt()).isEqualTo(15);
+        assertThat(collectReduce).contains(15);
+        assertThat(atomicInteger.get()).isEqualTo(15);
     }
 
     @Test
@@ -95,6 +106,7 @@ class ProblemStreamInt {
                 .filter(i -> !dupNumbers.add(i))
                 .toList();
         System.out.println(duplicateNumbers);
+        assertThat(duplicateNumbers).containsExactly(2, 4);
     }
 
     @Test
@@ -113,6 +125,7 @@ class ProblemStreamInt {
                 .boxed()
                 .collect(Collectors.toList());
         System.out.println("Missing numbers : " + missingNumbers);
+        assertThat(missingNumbers).containsExactly(3, 4, 6, 7, 9);
     }
 
     @Test
@@ -130,6 +143,8 @@ class ProblemStreamInt {
                 .toList();
         System.out.println("Even numbers : " + evenNumbers);
         System.out.println("Odd numbers : " + oddNumber);
+        assertThat(evenNumbers).containsExactly(2, 4, 6, 8, 10);
+        assertThat(oddNumber).containsExactly(1, 3, 5, 7, 9);
     }
 
     @Test
@@ -148,6 +163,8 @@ class ProblemStreamInt {
                 .skip(1)
                 .mapToInt(Integer::intValue)
                 .findFirst();
+        assertThat(smallest).hasValue(2);
+        assertThat(largest).hasValue(9);
     }
 
     @Test
@@ -160,6 +177,7 @@ class ProblemStreamInt {
                 .toList();
         System.out.println(numbers);
         System.out.println(reverseNumbers);
+        assertThat(reverseNumbers).containsExactly(1, 2, 3, 4, 5);
     }
 
     @Test
@@ -170,6 +188,12 @@ class ProblemStreamInt {
         Optional<String> longestWord = strings.stream()
                 .reduce((a, b) -> a.length() > b.length() ? a : b);
         System.out.println(longestWord);
+        assertThat(longestWord).contains("HelloWorld");
+        
+        Optional<String> shortestWord = strings.stream()
+                .min(Comparator.comparingInt(String::length));
+        System.out.println(shortestWord);
+        assertThat(shortestWord).contains("Hi");
     }
 
     @Test
@@ -184,6 +208,8 @@ class ProblemStreamInt {
 
         System.out.println("Even Count : " + result.get(true));
         System.out.println("Odd Count : " + result.get(false));
+        assertThat(sum).isEqualTo(3L);
+        assertThat(result).containsEntry(true, 3L).containsEntry(false, 3L);
     }
 
     @Test
@@ -200,9 +226,11 @@ class ProblemStreamInt {
                 .flatMap(i -> i.stream())
                 .distinct()
                 .sorted(Comparator.reverseOrder())
+                .limit(3)
                 .toList();
 
         System.out.println(sortedNumbers);
+        assertThat(sortedNumbers).containsExactly(10, 9, 8);
     }
 
 }

@@ -47,7 +47,7 @@ public class ScrapPad {
     }
 
     private static void removeDup() {
-        IntStream.generate(() -> (int) Math.random() * 100) // random range should be within 100
+        IntStream.generate(() -> (int) (Math.random() * 100)) // random range should be within 100
                 .limit(5)
                 .distinct()
                 .forEach(System.out::println);

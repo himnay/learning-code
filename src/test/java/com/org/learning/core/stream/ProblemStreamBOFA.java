@@ -35,16 +35,16 @@ public class ProblemStreamBOFA {
         employees.stream()
                 .collect(groupingBy(Employee::department, Collectors.minBy(Comparator.comparing(Employee::salary))));
         employees.stream()
-                .collect(groupingBy(Employee::department, Collectors.minBy(Comparator.comparing(Employee::department))));
+                .collect(groupingBy(Employee::department, Collectors.maxBy(Comparator.comparing(Employee::salary))));
 
         //3. Get total salary by department
         //5. Process dataset in parallel
-        employees.stream()
+        employees.parallelStream()
                 .collect(groupingByConcurrent(Employee::department, summingDouble(Employee::salary)));
 
         //4. Get Average salary by department
         //5. Process dataset in parallel
-        employees.stream()
+        employees.parallelStream()
                 .collect(groupingByConcurrent(Employee::department, averagingDouble(Employee::salary)));
 
         //6. Create 2 groups i.e. GROUP 1 has employees who have salary < = 3000 and GROUP 2 has employees > 3000

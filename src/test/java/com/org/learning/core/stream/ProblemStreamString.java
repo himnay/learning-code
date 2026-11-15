@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ExtendWith(MockitoExtension.class)
 public class ProblemStreamString {
 
@@ -26,6 +28,7 @@ public class ProblemStreamString {
         var occurrence = Arrays.stream(name.split(""))
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting()));
         System.out.println(occurrence);
+        assertThat(occurrence).containsEntry("a", 3L).containsEntry("H", 1L).containsEntry("N", 1L);
     }
 
     @Test
@@ -36,6 +39,7 @@ public class ProblemStreamString {
                 .filter(name -> StringUtils.isNotBlank(name))
                 .toList();
         System.out.println(filterNames);
+        assertThat(filterNames).containsExactly("Alice", "Bob", "Charlie", "David");
     }
 
     @Test
@@ -46,6 +50,7 @@ public class ProblemStreamString {
                 .map(String::toUpperCase)
                 .toList();
         System.out.println(upperCaseFruits);
+        assertThat(upperCaseFruits).containsExactly("APPLE", "ORANGE", "BANANA", "KIWI", "KIWI");
     }
 
     @Test
@@ -56,6 +61,7 @@ public class ProblemStreamString {
                 .distinct()
                 .toList();
         System.out.println(unique);
+        assertThat(unique).containsExactly(2, 4, 3, 5);
     }
 
     @Test
@@ -65,7 +71,8 @@ public class ProblemStreamString {
         var secondList = List.of(5, 6, 7, 8, 9, 10);
 
         // you can merge n streams
-        var mergeList = Stream.of(firstList.stream(), secondList.stream())
+        var mergeList = Stream.of(firstList, secondList)
+                .flatMap(List::stream)
                 .distinct()
                 .toList();
 
@@ -74,6 +81,8 @@ public class ProblemStreamString {
                 .distinct()
                 .toList();
         System.out.println(mergeList);
+        assertThat(mergeList).containsExactly(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        assertThat(distinctList).isEqualTo(mergeList);
     }
 
     @Test
@@ -85,6 +94,7 @@ public class ProblemStreamString {
         if (size.isPresent()) {
             System.out.println("Longest word " + size.get());
         }
+        assertThat(size).hasValueSatisfying(word -> assertThat(word).hasSize(12));
     }
 
     @Test
@@ -97,6 +107,7 @@ public class ProblemStreamString {
                 .toList();
         System.out.println("Actual List of String " + list);
         System.out.println("Reverse and Sorted " + reverseAndSorted);
+        assertThat(reverseAndSorted).containsExactly("ahpla", "aidepolcycnE", "enicideM", "nihploD", "sumatopoppiH");
     }
 
     @Test
@@ -111,6 +122,7 @@ public class ProblemStreamString {
 
         var collectedList = Stream.concat(listA.stream(), listOfOne.stream()).toList();
         System.out.println("Merge List " + collectedList);
+        assertThat(collectedList).containsExactly(2, 3, 4, 2, 1, 1);
     }
 
     @Test
@@ -120,6 +132,7 @@ public class ProblemStreamString {
 
         var changedList = Stream.concat(list.stream().filter(i -> i != 1), list.stream().filter(i -> i == 1)).toList();
         System.out.println(changedList);
+        assertThat(changedList).containsExactly(2, 3, 4, 1, 1, 1, 1);
     }
 
     @Test
@@ -130,6 +143,7 @@ public class ProblemStreamString {
         var reverseString = Arrays.stream(name.split(""))
                 .reduce((a, b) -> b + a);
         System.out.println("Reverse String : " + reverseString.get());
+        assertThat(reverseString).contains(new StringBuilder(name).reverse().toString());
     }
 
     @Test
@@ -153,6 +167,7 @@ public class ProblemStreamString {
                 .sorted(Comparator.reverseOrder())
                 .toList();
         System.out.println(sortedNaturalOrder);
+        assertThat(sortedNaturalOrder).containsExactly("Zebra", "Test", "RAT", "Mat", "Apple");
     }
 
     @Test
@@ -162,6 +177,7 @@ public class ProblemStreamString {
         var collect = list.stream()
                 .collect(Collectors.groupingBy(i -> i, Collectors.counting()));
         System.out.println(collect);
+        assertThat(collect).containsEntry("apple", 3L).containsEntry("banana", 2L).containsEntry("mango", 1L);
     }
 
     @Test
@@ -175,6 +191,7 @@ public class ProblemStreamString {
                 .filter(i -> listB.contains(i) && listC.contains(i))
                 .toList();
         System.out.println(commonWord);
+        assertThat(commonWord).containsExactly("Hero");
     }
 
     @Test
@@ -187,6 +204,7 @@ public class ProblemStreamString {
                 .mapToInt(Character::getNumericValue)
                 .sum();
         System.out.println(numbers);
+        assertThat(numbers).isEqualTo(6);
     }
 
     @Test
@@ -201,6 +219,7 @@ public class ProblemStreamString {
                 .sorted(Map.Entry.comparingByValue())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         System.out.println(result);
+        assertThat(result.keySet()).containsExactly('c', 'a', 'b', 'd');
     }
 
     @Test
@@ -216,6 +235,8 @@ public class ProblemStreamString {
                 .sorted(Comparator.comparingInt(String::length).reversed())
                 .toList();
         System.out.println(sortedString.get(0));
+        assertThat(longestStringLength).contains("Architecture");
+        assertThat(sortedString.get(0)).isEqualTo("Architecture");
     }
 
     @Test
@@ -227,6 +248,7 @@ public class ProblemStreamString {
                 .map(String::length);
 
         System.out.println(stringLength.get());
+        assertThat(stringLength).contains(4);
     }
 
     @Test
@@ -236,6 +258,7 @@ public class ProblemStreamString {
         String changedString = Arrays.stream("Himansu".split(""))
                 .collect(Collectors.joining(",", "[", "]"));
         System.out.println(changedString);
+        assertThat(changedString).isEqualTo("[H,i,m,a,n,s,u]");
     }
 
     @Test
@@ -262,6 +285,8 @@ public class ProblemStreamString {
         if ("alpha".length() != count) {
             System.out.println("Duplicate character in string " + "alpha");
         }
+        assertThat(dupCharacter).isEmpty();
+        assertThat(count).isEqualTo(4);
     }
 
     @Test
@@ -281,6 +306,7 @@ public class ProblemStreamString {
                 .toList()
                 .get(0);
         System.out.println(employee);
+        assertThat(employee.name()).isEqualTo("Declan");
     }
 
     @Test
@@ -290,6 +316,8 @@ public class ProblemStreamString {
                 .boxed() // convert IntStream to Stream<Integer>
                 .collect(Collectors.partitioningBy(i -> i % 2 == 0));
         System.out.println(partition);
+        assertThat(partition.get(true)).hasSize(10).allMatch(i -> i % 2 == 0);
+        assertThat(partition.get(false)).hasSize(10).allMatch(i -> i % 2 != 0);
     }
 
     @Test
@@ -319,6 +347,7 @@ public class ProblemStreamString {
                 .collect(Collectors.mapping(Student::name, Collectors.toList())); // map during collecting
 
         System.out.println(sortedStudents);
+        assertThat(sortedStudents).containsExactly("Alpha", "John");
     }
 
     @Test
@@ -331,7 +360,7 @@ public class ProblemStreamString {
                 "When I wake up in the morning");
 
         var sortedMap = listOfSentence.stream()
-                .map(i -> Arrays.stream(i.split(" ")))
+                .flatMap(i -> Arrays.stream(i.toLowerCase().split("\\s+")))
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet()
                 .stream()
@@ -339,6 +368,7 @@ public class ProblemStreamString {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, LinkedHashMap::new));
 
         sortedMap.entrySet().stream().forEach(entry -> System.out.println(entry.getKey() + " " + entry.getValue()));
+        assertThat(sortedMap).hasSize(7).containsEntry("when", 3L).containsEntry("morning", 3L);
     }
 
     @Test
@@ -364,5 +394,10 @@ public class ProblemStreamString {
                         Collectors.collectingAndThen(Collectors.toList(), list -> sortAndCollectStudentName.apply(list))));
 
         System.out.println(result);
+        assertThat(result)
+                .containsEntry(City.DUBLIN, "Alpha,John")
+                .containsEntry(City.GALWAY, "Donald,Mickey")
+                .containsEntry(City.LIMERICK, "Kiaan")
+                .containsEntry(City.CORK, "Himansu,Kyra");
     }
 }

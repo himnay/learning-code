@@ -27,6 +27,6 @@ public record Employee(
 
     // ✅ No-arg constructor (must delegate to canonical)
     public Employee() {
-        this("Unknown", "Unassigned", 0, 0.0, 0L);
+        this("Unknown", "Unassigned", 18, 0.0, 0L);
     }
 }

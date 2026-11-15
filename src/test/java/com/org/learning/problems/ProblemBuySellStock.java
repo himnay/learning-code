@@ -7,6 +7,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @ExtendWith(MockitoExtension.class)
 public class ProblemBuySellStock {
 
@@ -31,6 +33,9 @@ public class ProblemBuySellStock {
         System.out.println("Min Stock : " + minStock);
         System.out.println("Max Stock : " + maxStock);
         System.out.println("Max Profit : " + maxProfit);
+        assertEquals(1, minStock);
+        assertEquals(9, maxStock);
+        assertEquals(8, maxProfit);
     }
 
 }
